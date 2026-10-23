@@ -1,0 +1,6 @@
+neonize
+flask
+qrcode[pil]
+pillow
+psutil
+requests
