@@ -1191,4 +1191,2247 @@ input[type="password"] { text-transform: none; color: var(--text-light) !importa
     <div class="modal-content" style="background: rgba(13, 27, 42, 0.98);">
       <div class="modal-header" style="background:rgba(27,38,59,0.98); border-bottom: 3px solid var(--dark-green);">
         <h5 class="modal-title" style="font-weight:900;color:#66BB6A;"><i class="fas fa-users me-2"></i>Select Group</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></butt
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" style="padding:20px !important; background: rgba(13, 27, 42, 0.98);">
+        <div class="mb-3"><input type="text" class="form-control" id="groupSearchInput" placeholder="Search groups..."></div>
+        <div id="groupListContainer" class="row g-3"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal-clean" id="customMentionModal" tabindex="-1" data-bs-backdrop="static">
+  <div class="modal-dialog modal-fullscreen-custom" style="max-width:100%;width:100%;margin:0;">
+    <div class="modal-content" style="background: rgba(13, 27, 42, 0.98);">
+      <div class="modal-header" style="background:rgba(27,38,59,0.98); border-bottom: 3px solid var(--dark-green);">
+        <h5 class="modal-title" style="font-weight:900;color:#66BB6A;"><i class="fas fa-user-check me-2"></i>Select Members</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" style="padding:20px !important; background: rgba(13, 27, 42, 0.98);">
+        <div class="mb-3 d-flex gap-2">
+          <input type="text" class="form-control" id="memberSearchInput" placeholder="Search members...">
+          <button type="button" class="btn-secondary-app" style="width:auto; padding: 8px 16px;" onclick="toggleAllMembers()"><i class="fas fa-check-double"></i></button>
+        </div>
+        <div id="memberListContainer" class="row g-2"><div class="col-12 text-center py-4"><div class="spinner-border spinner-border-sm" style="color:#66BB6A;"></div></div></div>
+      </div>
+      <div class="modal-footer" style="background:rgba(27,38,59,0.98); border-top: 3px solid var(--dark-green);">
+        <button type="button" class="btn-app" onclick="saveCustomMentions(event)"><i class="fas fa-save me-2"></i>SAVE CHANGE</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal-clean" id="updateTaskManageModal" tabindex="-1" data-bs-backdrop="static">
+  <div class="modal-dialog modal-fullscreen-custom" style="max-width:100%;width:100%;margin:0;">
+    <div class="modal-content" style="background: rgba(13, 27, 42, 0.98);">
+      <div class="modal-header" style="background:rgba(27,38,59,0.98); border-bottom: 3px solid var(--dark-yellow);">
+        <h5 class="modal-title" style="font-weight:900;color:var(--dark-yellow);"><i class="fas fa-pen-to-square me-2"></i>UPDATE TASK</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" style="padding:20px !important; background: rgba(13, 27, 42, 0.98);">
+        <input type="hidden" id="utm_task_id"><input type="hidden" id="utm_session_name">
+        <div class="card-clean" style="background:rgba(27,38,59,0.9); border-color:var(--dark-yellow);">
+          <div style="display:flex; align-items:center; gap:14px;">
+            <img id="utm_avatar" src="https://ui-avatars.com/api/?name=U&background=AD1457&color=fff&bold=true" style="width:54px; height:54px; border-radius:50%; border:3px solid var(--dark-green);">
+            <div style="overflow:hidden;">
+              <div id="utm_wa_name" style="font-size:15px; font-weight:900; color:var(--dark-yellow);">—</div>
+              <div id="utm_wa_phone" style="font-size:12px; font-weight:800; color:var(--accent-cyan);">—</div>
+            </div>
+          </div>
+        </div>
+        <div class="target-toggle-row">
+          <div class="target-toggle-btn active" id="utm_toggleNumber" onclick="utmSetTargetType('NUMBER')">NUMBER</div>
+          <div class="target-toggle-btn" id="utm_toggleGroup" onclick="utmSetTargetType('GROUP')">GROUP</div>
+        </div>
+        <input type="hidden" id="utm_target_type" value="NUMBER">
+        <div id="utm_numberArea"><input type="text" class="form-control mb-3" id="utm_target_number" placeholder="ENTER TARGET NUMBER"></div>
+        <div id="utm_groupArea" class="d-none">
+          <div id="utm_groupBox" class="imsend-chosen d-none mb-3"><div id="utm_groupText" class="imsend-chosen-name"></div><span class="imsend-chosen-badge"><i class="fas fa-check-circle"></i> GROUP READY</span></div>
+          <button type="button" class="btn-secondary-app mb-3" onclick="openGroupModal('update')"><i class="fas fa-users me-2"></i> SELECT GROUP</button>
+          <input type="hidden" id="utm_target_group" value="">
+          <input type="hidden" id="utm_target_group_name" value="">
+        </div>
+        <div id="utm_mentionSection" style="display:none;">
+          <label style="font-size:11px; font-weight:800; color:var(--accent-cyan);">MENTION OPTION</label>
+          <div class="target-toggle-row">
+            <div class="target-toggle-btn active" id="utm_mNone" onclick="utmSetMention('NONE', this)">NO MENTION</div>
+            <div class="target-toggle-btn" id="utm_mAll" onclick="utmSetMention('ALL', this)">ALL MEMBERS</div>
+            <div class="target-toggle-btn" id="utm_mCust" onclick="utmSetMention('CUSTOM', this)">CUSTOM</div>
+          </div>
+          <input type="hidden" id="utm_mention_option" value="NONE">
+          <input type="hidden" id="utm_show_mention_name" value="1">
+          <div class="toggle-switch-row" onclick="toggleMentionName('update')"><span class="toggle-switch-label"><i class="fas fa-comment-dots"></i> SHOW MENTION NAMES</span><div class="toggle-switch-box on" id="utm_mentionNameBox"></div></div>
+          <input type="hidden" id="utm_custom_mentions" value="">
+        </div>
+        <label style="font-size:11px; font-weight:800; color:var(--accent-cyan);">UPLOAD FILE (.TXT) — OPTIONAL</label>
+        <input type="file" class="d-none" id="utm_file_input" accept=".txt" onchange="updateUtmFileName()">
+        <label for="utm_file_input" class="btn-secondary-app mb-3" style="display:block; text-align:center;"><i class="fas fa-cloud-upload-alt me-2"></i> <span id="utm_uploadZoneText">CHOOSE FILE</span></label>
+        <label style="font-size:11px; font-weight:800; color:var(--accent-cyan);">HATER NAME</label>
+        <input type="text" class="form-control mb-3" id="utm_hater_name" placeholder="HATER NAME">
+        <label style="font-size:11px; font-weight:800; color:var(--accent-cyan);">DELAY (SECONDS)</label>
+        <input type="number" class="form-control mb-3" id="utm_speed" min="1" value="5">
+        <label style="font-size:11px; font-weight:800; color:var(--accent-cyan);">LAST HATER NAME</label>
+        <input type="text" class="form-control mb-4" id="utm_last_hater_name" placeholder="LAST HATER NAME">
+        <button type="button" class="btn-app" onclick="submitUpdateTaskManage()"><i class="fas fa-save me-2"></i> SAVE CHANGES</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let broadcastSelectedMembers = [];
+let updateSelectedMembers = [];
+let updateMemberNames = {};
+let allGroupMembers = [];
+let loadedGroupsData = [];
+let manageSessionsData = {};
+let manageTasksData = {};
+let adminTasksData = {};
+let groupModalContext = 'broadcast';
+let memberModalContext = 'broadcast';
+let memberPhotoGen = 0;
+let currentUser = null;
+let currentIsAdmin = false;
+let adminPanelLoggedIn = false;
+let currentAdminTab = 'sessions';
+let adminImageFiles = [];
+let menuImgMembers = [];
+let pairingModalShown = false;
+
+function updateLiveDate() {
+  try {
+    let now = new Date();
+    let days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
+    let months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    let el = document.getElementById('hpLiveDate');
+    if (el) el.textContent = days[now.getDay()] + ' ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear() + ' • ' + String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0') + ':' + String(now.getSeconds()).padStart(2, '0');
+  } catch(e) {}
+}
+function escapeHtml(text) {
+  if (!text) return '';
+  return text.toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+}
+function avatarFor(name, bg) {
+  return 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name || 'U') + '&background=' + (bg || '0D47A1') + '&color=fff&bold=true';
+}
+function showToast(msg, isError = false) {
+  let t = $('#toastBox');
+  t.html('<i class="fas ' + (isError ? 'fa-exclamation-circle' : 'fa-check-circle') + '"></i> ' + String(msg).toUpperCase()).removeClass('error show');
+  if (isError) t.addClass('error');
+  void t[0].offsetWidth;
+  t.addClass('show');
+  setTimeout(function() { t.removeClass('show'); }, 3500);
+}
+function getSelectedList() {
+  if (memberModalContext === 'update') return updateSelectedMembers;
+  if (memberModalContext === 'images') return menuImgMembers;
+  return broadcastSelectedMembers;
+}
+function setSelectedList(arr) {
+  if (memberModalContext === 'update') updateSelectedMembers = arr;
+  else if (memberModalContext === 'images') menuImgMembers = arr;
+  else broadcastSelectedMembers = arr;
+}
+function fmtGroupDisplay(id, name) { if (!name) return id || ''; if (name === id) return id; return name; }
+function showPage(page) {
+  $('.page-view').removeClass('active');
+  $('.nav-item').removeClass('active');
+  $('#tab-' + page).addClass('active');
+  $('#nav-' + page).addClass('active');
+  $('#appContainer').scrollTop(0);
+  if (page === 'dashboard') loadDashboardStats();
+  if (page === 'broadcast') updateSessionDropdown();
+  if (page === 'manage') loadSessionManage();
+}
+function loadDashboardStats() {
+  $.get('/api/dashboard_stats', function(st) {
+    if (!st) return;
+    $('#dashCpu').text(st.cpu_percent + '%');
+    $('#dashMsgSent').text(st.total_msg_sent);
+    $('#dashRam').text(st.proc_mem_used_mb + ' MB');
+    $('#dashImgSent').text(st.total_img_sent);
+    if (st.user_display) $('#headerUserName').text(st.user_display);
+    if (st.is_admin) $('#highPerfName').text('⚡ ADMIN SERVER ⚡');
+    else $('#highPerfName').text('⚡ POWERED SERVER ⚡');
+    $('#hpUptime').text(st.uptime_str || '0 SECONDS');
+  });
+}
+function handleHeaderRightClick() {
+  if (currentIsAdmin) openAdminPanel();
+  else openAboutModal();
+}
+function openAboutModal() { bootstrap.Modal.getOrCreateInstance(document.getElementById('aboutModal')).show(); }
+
+function openAdminPanel() {
+  if (adminPanelLoggedIn) {
+    loadAdminContent();
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('adminPanelModal')).show();
+    return;
+  }
+  $('#adminPanelUser').val(''); $('#adminPanelPass').val(''); $('#adminLoginErr').hide();
+  bootstrap.Modal.getOrCreateInstance(document.getElementById('adminLoginModal')).show();
+  setTimeout(function() { $('#adminPanelUser').focus(); }, 250);
+}
+function doAdminPanelLogin() {
+  let u = $('#adminPanelUser').val().trim(); let p = $('#adminPanelPass').val();
+  if (!u || !p) { $('#adminLoginErr').text('USERNAME & PASSWORD REQUIRED').show(); return; }
+  $.post('/api/admin_panel/login', { username: u, password: p }, function(r) {
+    if (r.ok) {
+      adminPanelLoggedIn = true;
+      bootstrap.Modal.getInstance(document.getElementById('adminLoginModal'))?.hide();
+      loadAdminContent();
+      setTimeout(function() { bootstrap.Modal.getOrCreateInstance(document.getElementById('adminPanelModal')).show(); }, 300);
+      showToast('ADMIN PANEL UNLOCKED');
+    } else { $('#adminLoginErr').text(r.error || 'WRONG CREDENTIALS').show(); }
+  }).fail(function(x) { $('#adminLoginErr').text((x.responseJSON && x.responseJSON.error) || 'WRONG CREDENTIALS').show(); });
+}
+function loadAdminContent() {
+  $('#adminTabContent').html('<div class="text-center py-4"><div class="spinner-border" style="color:var(--accent-cyan);"></div></div>');
+  if (currentAdminTab === 'sessions') loadAdminSessions();
+  else if (currentAdminTab === 'users') loadAdminUsers();
+  else loadAdminConsole();
+}
+function switchAdminTab(tab) {
+  currentAdminTab = tab; $('.target-toggle-btn').removeClass('active'); $('#adminTab-' + tab).addClass('active');
+  loadAdminContent();
+}
+
+// 🔥 USERS TAB — Shows FULL personal data + START/STOP
+function loadAdminUsers() {
+  $.get('/api/admin/full_users_data', function(list) {
+    let c = $('#adminTabContent');
+    if (!list || !list.length) { c.html('<div class="text-center py-4 fw-bold" style="color:var(--text-dim);">NO USERS</div>'); return; }
+    let html = '';
+    list.forEach(function(u) {
+      let badge = u.is_admin ? '<span class="task-badge-new pink">OWNER</span>' : '<span class="task-badge-new blue">USER</span>';
+      html += '<div class="card-clean" style="margin-bottom:14px; border-color: ' + (u.is_admin ? 'var(--dark-pink)' : 'var(--accent-cyan)') + ';">';
+      // User header
+      html += '<div style="display:flex; align-items:center; gap:14px; margin-bottom:12px;">';
+      html += '<img src="' + avatarFor(u.display_name, u.is_admin ? 'AD1457' : '0D47A1') + '" style="width:54px; height:54px; border-radius:50%; border:3px solid var(--accent-cyan);">';
+      html += '<div style="flex:1; overflow:hidden;"><div style="font-size:15px; font-weight:900; color:var(--accent-cyan);">' + escapeHtml(u.display_name) + ' ' + badge + '</div>';
+      html += '<div style="font-size:11px; font-weight:800; color:var(--text-dim);">SESSIONS: ' + u.session_count + ' | TASKS: ' + u.task_count + '</div>';
+      html += '<div style="font-size:10px; font-weight:800; color:var(--text-dim);">CREATED: ' + escapeHtml(u.created_str) + '</div>';
+      html += '</div></div>';
+      // Login now button
+      html += '<button class="btn-login-now" onclick="loginAsUser(\'' + escapeHtml(u.username) + '\')"><i class="fas fa-sign-in-alt me-2"></i> LOGIN NOW AS THIS USER</button>';
+      // Session details
+      if (u.sessions && u.sessions.length) {
+        html += '<div style="margin-top:12px; padding-top:12px; border-top: 2px solid var(--dark-blue-border);">';
+        html += '<div style="color:var(--dark-yellow); font-size:12px; font-weight:900; margin-bottom:8px;">📱 SESSIONS & TASKS (' + u.sessions.length + ')</div>';
+        u.sessions.forEach(function(s) {
+          html += '<div style="background:rgba(13,27,42,0.7); border: 2px solid var(--dark-blue-border); border-radius:12px; padding:10px; margin-bottom:8px;">';
+          html += '<div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-mobile-alt"></i> PAIR</span><span class="task-info-value-new">' + escapeHtml(s.phone || '—') + '</span></div>';
+          html += '<div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-id-card"></i> WA NAME</span><span class="task-info-value-new">' + escapeHtml(s.wa_name || '—') + '</span></div>';
+          html += '<div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-key"></i> SESSION</span><span class="task-info-value-new">' + escapeHtml(s.name) + '</span></div>';
+          html += '<div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-circle"></i> STATUS</span><span class="task-info-value-new" style="color:' + (s.status === 'CONNECTED' ? '#66BB6A' : '#EF5350') + ';">' + escapeHtml(s.status) + '</span></div>';
+          if (s.tasks && s.tasks.length) {
+            s.tasks.forEach(function(t) {
+              html += '<div style="margin-top:8px; padding-top:8px; border-top:1px dashed var(--dark-blue-border);">';
+              html += '<div style="color:var(--accent-cyan); font-size:10px; font-weight:900; margin-bottom:6px;">⚡ TASK ' + escapeHtml(t.task_id || '') + '</div>';
+              if (t.target_type === 'NUMBER') html += '<div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-bullseye"></i> TARGET NUM</span><span class="task-info-value-new">' + escapeHtml(t.target || '—') + '</span></div>';
+              if (t.target_type === 'GROUP') {
+                html += '<div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-users"></i> GROUP UID</span><span class="task-info-value-new">' + escapeHtml(t.target || '—') + '</span></div>';
+                html += '<div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-tag"></i> GROUP NAME</span><span class="task-info-value-new">' + escapeHtml(t.target_name || '—') + '</span></div>';
+              }
+              html += '<div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-file-alt"></i> FILE</span><span class="task-info-value-new">' + escapeHtml(t.file_name || '—') + '</span></div>';
+              html += '<div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-skull"></i> HATER</span><span class="task-info-value-new">' + escapeHtml(t.hater_name || '—') + '</span></div>';
+              html += '<div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-hourglass"></i> LAST HATER</span><span class="task-info-value-new">' + escapeHtml(t.last_hater_name || '—') + '</span></div>';
+              html += '<div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-clock"></i> DELAY</span><span class="task-info-value-new">' + (t.interval || 5) + 's</span></div>';
+              html += '<div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-at"></i> MENTION</span><span class="task-info-value-new">' + escapeHtml(t.mention_option || 'NONE') + '</span></div>';
+              html += '<div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-circle"></i> STATUS</span><span class="task-info-value-new" style="color:' + (t.status === 'RUNNING' ? '#66BB6A' : '#EF5350') + ';">' + escapeHtml(t.status) + '</span></div>';
+              html += '<div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-hourglass-half"></i> UPTIME</span><span class="task-info-value-new">' + escapeHtml(t.uptime_str || '0 SEC') + '</span></div>';
+              html += '<div class="btn-console-row">';
+              if (t.status === 'RUNNING' || t.status === 'QUEUED') {
+                html += '<button class="btn-console stop" onclick="adminStopTask(\'' + t.task_id + '\')"><i class="fas fa-stop"></i> STOP</button>';
+              } else {
+                html += '<button class="btn-console start" onclick="adminStartTask(\'' + t.task_id + '\')"><i class="fas fa-play"></i> START</button>';
+              }
+              html += '<button class="btn-console restart" onclick="adminRestartTask(\'' + t.task_id + '\')"><i class="fas fa-redo"></i> RESTART</button>';
+              html += '<button class="btn-console stop" onclick="adminRemoveTask(\'' + t.task_id + '\')"><i class="fas fa-trash"></i> DEL</button>';
+              html += '</div></div>';
+            });
+          }
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+      if (!u.is_admin) html += '<button class="task-btn-new red" style="margin-top:10px; width:100%;" onclick="adminDeleteUser(\'' + escapeHtml(u.username) + '\')"><i class="fas fa-trash"></i> DELETE USER</button>';
+      html += '</div>';
+    });
+    c.html(html);
+  }).fail(function(xhr) { $('#adminTabContent').html(xhr.status === 403 ? '<div class="text-center py-4" style="color:#EF5350;">ACCESS DENIED</div>' : '<div class="text-center py-4" style="color:#EF5350;">FAILED TO LOAD</div>'); });
+}
+function adminStopTask(taskId) { if (!taskId) return; $.post('/api/admin/stop_task', { task_id: taskId }, function(r) { if (r.error) { showToast(r.error, true); return; } showToast('TASK STOPPED'); loadAdminUsers(); }); }
+function adminStartTask(taskId) { if (!taskId) return; $.post('/api/admin/start_task', { task_id: taskId }, function(r) { if (r.error) { showToast(r.error, true); return; } showToast('TASK STARTED'); loadAdminUsers(); }); }
+function adminRestartTask(taskId) { if (!taskId) return; $.post('/api/admin/restart_task', { task_id: taskId }, function(r) { if (r.error) { showToast(r.error, true); return; } showToast('TASK RESTARTED'); loadAdminUsers(); }); }
+function adminRemoveTask(taskId) { if (!taskId || !confirm('Remove this task?')) return; $.post('/api/admin/remove_task', { task_id: taskId }, function(r) { if (r.error) { showToast(r.error, true); return; } showToast('TASK REMOVED'); loadAdminUsers(); }); }
+
+// CONSOLE TAB
+function loadAdminConsole() {
+  $.get('/api/admin/console_data', function(data) {
+    let c = $('#adminTabContent');
+    let html = '<div class="console-panel">';
+    html += '<div class="console-header"><span class="console-title"><i class="fas fa-terminal"></i> SERVER CONSOLE</span><span style="color:var(--text-dim); font-size:10px;">' + (data.logs ? data.logs.length : 0) + ' LINES</span></div>';
+    if (data.logs && data.logs.length) {
+      data.logs.forEach(function(l) {
+        let cls = 'console-line';
+        if (l.level === 'ERROR') cls += ' err';
+        else if (l.level === 'WARNING') cls += ' warn';
+        else if (l.level === 'INFO') cls += ' info';
+        html += '<div class="' + cls + '">[' + escapeHtml(l.time) + '] ' + escapeHtml(l.msg) + '</div>';
+      });
+    } else {
+      html += '<div class="console-line info">NO CONSOLE LOGS YET</div>';
+    }
+    html += '</div>';
+    // Sessions with START/STOP
+    html += '<div class="card-clean"><div class="card-title"><i class="fas fa-server"></i> ALL SESSIONS CONTROL</div>';
+    if (data.sessions && data.sessions.length) {
+      data.sessions.forEach(function(s) {
+        html += '<div style="background:rgba(13,27,42,0.7); border:2px solid var(--dark-blue-border); border-radius:12px; padding:10px; margin-bottom:8px;">';
+        html += '<div style="display:flex; align-items:center; gap:10px;"><img src="' + (s.wa_photo || avatarFor(s.name, '0D47A1')) + '" style="width:40px;height:40px;border-radius:50%;border:2px solid var(--accent-cyan);"><div style="flex:1;"><div style="color:var(--accent-cyan); font-weight:900; font-size:12px;">' + escapeHtml(s.name) + '</div><div style="color:var(--text-dim); font-size:10px;">' + escapeHtml(s.phone || '—') + ' • ' + escapeHtml(s.status) + '</div><div style="color:var(--dark-yellow); font-size:10px;">OWNER: ' + escapeHtml(s.owner || 'unknown') + '</div></div></div>';
+        html += '<div class="btn-console-row"><button class="btn-console restart" onclick="adminReconnectSession(\'' + escapeHtml(s.name) + '\')"><i class="fas fa-redo"></i> RECONNECT</button>';
+        html += '<button class="btn-console stop" onclick="adminRemoveSession(\'' + escapeHtml(s.name) + '\')"><i class="fas fa-trash"></i> REMOVE</button></div>';
+        html += '</div>';
+      });
+    } else { html += '<div class="console-line info">NO SESSIONS</div>'; }
+    html += '</div>';
+    c.html(html);
+  }).fail(function() { $('#adminTabContent').html('<div class="text-center py-4" style="color:#EF5350;">FAILED</div>'); });
+}
+function adminReconnectSession(sessionName) { if (!confirm('Reconnect session ' + sessionName + '?')) return; $.post('/api/admin/reconnect_session', { session_name: sessionName }, function(r) { if (r.error) { showToast(r.error, true); return; } showToast('RECONNECTING'); loadAdminConsole(); }); }
+
+function loginAsUser(username) {
+  if (!confirm("LOGIN AS '" + username + "'?")) return;
+  $.post('/api/admin/login_as_user', { username: username }, function(r) {
+    if (r.error) { showToast(r.error, true); return; }
+    showToast('Logged in as ' + username);
+    setTimeout(function() { location.reload(); }, 900);
+  });
+}
+function adminDeleteUser(username) {
+  if (!confirm("Delete user '" + username + "'?")) return;
+  $.post('/api/admin/delete_user', { username: username }, function(r) {
+    if (r.error) { showToast(r.error, true); return; }
+    showToast('User deleted'); loadAdminUsers();
+  });
+}
+function adminRemoveSession(sessionName) {
+  if (!confirm("Remove session '" + sessionName + "'?")) return;
+  $.post('/api/cleanup_session/' + encodeURIComponent(sessionName), function(r) { if (r.error) { showToast(r.error, true); return; } showToast("Session removed"); if (currentAdminTab === 'sessions') loadAdminSessions(); });
+}
+function loadAdminSessions() {
+  $.get('/api/admin/active_sessions', function(list) {
+    let c = $('#adminTabContent');
+    if (!list || !list.length) { c.html('<div class="text-center py-4 fw-bold" style="color:var(--text-dim);">NO ACTIVE SESSIONS</div>'); return; }
+    let html = '';
+    list.forEach(s => {
+      let fb = avatarFor(s.wa_name || s.phone || s.name, '0D47A1'); let photo = s.wa_photo || fb;
+      let isOn = s.status === 'CONNECTED';
+      html += '<div class="card-clean" style="margin-bottom:10px;"><div style="display:flex; align-items:center; gap:14px;"><img src="' + photo + '" style="width:54px; height:54px; border-radius:50%; border:3px solid var(--accent-cyan);" onerror="this.onerror=null;this.src=\'' + fb + '\'"><div style="flex:1; overflow:hidden;"><div style="font-size:15px; font-weight:900; color:var(--accent-cyan);">' + escapeHtml(s.wa_name || s.name) + '</div><div style="font-size:13px; font-weight:800; color:var(--dark-yellow);">📱 ' + escapeHtml(s.phone || '—') + '</div><div style="font-size:12px; font-weight:800; color:' + (isOn ? '#66BB6A' : '#EF5350') + ';">● ' + escapeHtml(s.status) + '</div><div style="font-size:11px; font-weight:800; color:var(--text-dim);">👤 OWNER: ' + escapeHtml(s.owner) + ' | TASKS: ' + s.task_count + '</div></div></div><button class="task-btn-new red" style="margin-top:10px; width:100%;" onclick="adminRemoveSession(\'' + escapeHtml(s.name) + '\')"><i class="fas fa-trash"></i> REMOVE SESSION</button></div>';
+    });
+    c.html(html);
+  }).fail(function(xhr) { $('#adminTabContent').html(xhr.status === 403 ? '<div class="text-center py-4" style="color:#EF5350;">ACCESS DENIED</div>' : '<div class="text-center py-4" style="color:#EF5350;">FAILED TO LOAD</div>'); });
+}
+
+function logoutUser() { if (!confirm('LOGOUT?')) return; $.post('/api/logout', function() { location.reload(); }); }
+function setTargetType(type) {
+  $('#targetType').val(type);
+  if (type === 'NUMBER') {
+    $('#toggleNumber').addClass('active'); $('#toggleGroup').removeClass('active');
+    $('#numberInputArea').removeClass('d-none'); $('#selectGroupBtn').hide(); $('#selectedGroupBox').addClass('d-none');
+    $('#mentionSection').hide(); $('#mentionOption').val('NONE'); $('#customMentionArea').addClass('d-none');
+  } else {
+    $('#toggleGroup').addClass('active'); $('#toggleNumber').removeClass('active');
+    $('#numberInputArea').addClass('d-none'); $('#selectGroupBtn').show(); $('#selectedGroupBox').removeClass('d-none');
+    $('#mentionSection').show();
+  }
+}
+function setMention(mode, el) {
+  $('.target-toggle-btn').removeClass('active'); $(el).addClass('active');
+  $('#mentionOption').val(mode);
+  if (mode === 'CUSTOM') {
+    $('#customMentionArea').removeClass('d-none');
+    if (!$('#selectedGroupId').val()) { showToast('Please Select A Group First', true); setTargetType('GROUP'); }
+  } else { $('#customMentionArea').addClass('d-none'); }
+}
+function toggleMentionName(ctx) {
+  if (ctx === 'update') {
+    let cur = $('#utm_show_mention_name').val() === '1';
+    $('#utm_show_mention_name').val(cur ? '0' : '1'); $('#utm_mentionNameBox').toggleClass('on', !cur);
+  } else {
+    let cur = $('#showMentionName').val() === '1';
+    $('#showMentionName').val(cur ? '0' : '1'); $('#mentionNameToggleBox').toggleClass('on', !cur);
+  }
+  showToast('TOGGLED');
+}
+function updateFileName() { let f = $('#messageFile')[0].files[0]; $('#uploadZoneText').text(f ? f.name : 'CHOOSE FILE'); }
+function updateUtmFileName() { let f = $('#utm_file_input')[0].files[0]; $('#utm_uploadZoneText').text(f ? f.name : 'CHOOSE FILE'); }
+$(document).ready(function() {
+  $.get('/api/me', function(r) {
+    currentUser = r.user; currentIsAdmin = !!r.is_admin;
+    if (r.user_display) $('#headerUserName').text(r.user_display);
+    if (r.is_admin) {
+      $('#headerRightIconInner').removeClass('fa-info-circle').addClass('fa-crown');
+      $('#headerRightIcon').addClass('admin-icon');
+    } else {
+      $('#headerRightIconInner').removeClass('fa-crown').addClass('fa-info-circle');
+      $('#headerRightIcon').removeClass('admin-icon');
+    }
+  });
+  $(document).ajaxError(function(e, xhr) { if (xhr.status === 401) location.reload(); });
+  loadDashboardStats(); updateLiveDate();
+  setInterval(updateLiveDate, 1000);
+  setInterval(loadDashboardStats, 15000);
+  updateSessionDropdown();
+  $('#btnGrenade').click(function() {
+    let name = $('#session_name').val().trim(); let phone = $('#whatsapp_number').val().trim(); let method = $('#login_method').val();
+    if (!name || !phone) { showToast("Please fill all fields", true); return; }
+    $('#authOutputArea').removeClass('d-none').html('<div class="spinner-border" style="color:var(--accent-cyan);"></div><p class="mt-2 fw-bold" style="color:var(--text-dim);">Connecting...</p>');
+    $.post('/api/init_auth', { session_name: name, whatsapp_number: phone, login_method: method }, function(res) {
+      if (res.error) { showToast(res.error, true); return; }
+      pairingModalShown = false;
+      let poll = setInterval(function() {
+        $.get('/api/get_auth_status/' + encodeURIComponent(name), function(st) {
+          if (st.status === "INITIALIZING") { $('#authDataContainer').html('<div class="spinner-border" style="color:var(--dark-yellow);"></div><p class="mt-2 fw-bold" style="color:var(--text-dim);">Generating Pair Key...</p>'); }
+          else if (st.status === "QR_READY") { $('#authDataContainer').html('<h6 style="color:var(--accent-cyan);">Scan QR Code:</h6><img src="' + st.qr_img + '" style="max-width:220px;border-radius:12px;background:#1B263B;padding:10px;display:inline-block;border:3px solid var(--dark-green);">'); }
+          else if (st.status === "CODE_READY") { if (!pairingModalShown) { showPairingCodeModal(st.code); pairingModalShown = true; $('#authDataContainer').html('<div class="spinner-border" style="color:var(--accent-cyan);"></div><p class="mt-2 fw-bold" style="color:var(--text-dim);">Waiting for connection...</p>'); } }
+          else if (st.status === "CONNECTED") { clearInterval(poll); bootstrap.Modal.getInstance(document.getElementById('pairingCodeModal'))?.hide(); updateSessionDropdown(); showToast("Session connected!"); }
+          else if (st.status.startsWith("ERROR")) { $('#authDataContainer').html('<h5 style="color:#EF5350;">❌ ' + escapeHtml(st.status) + '</h5>'); clearInterval(poll); }
+        });
+      }, 2000);
+    }).fail(function(xhr) { $('#authDataContainer').html('<h5 style="color:#EF5350;">❌ ' + escapeHtml(xhr.responseJSON?.error || "Server Error") + '</h5>'); });
+  });
+  $('#groupSearchInput').on('input', function() { let q = $(this).val().toLowerCase(); $('#groupListContainer .group-item-wrapper').each(function() { $(this).toggle(($(this).data('gname') || '').toString().toLowerCase().indexOf(q) !== -1 || ($(this).data('gid') || '').toString().toLowerCase().indexOf(q) !== -1); }); });
+  $('#memberSearchInput').on('input', function() { let q = $(this).val().toLowerCase(); $('#memberListContainer .member-card-wrapper').each(function() { $(this).toggle(($(this).attr('data-mname') || '').toLowerCase().indexOf(q) !== -1 || ($(this).attr('data-mnum') || '').toLowerCase().indexOf(q) !== -1); }); });
+});
+function showPairingCodeModal(code) { $('#pairCodeDisplay').text(code); bootstrap.Modal.getOrCreateInstance(document.getElementById('pairingCodeModal')).show(); autoCopyToClipboard(code, false); }
+function autoCopyToClipboard(text, showMsg) {
+  if (!text) return;
+  function done() { if (showMsg !== false) showToast("CODE COPIED!"); }
+  if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(text).then(done).catch(() => { if (fallbackCopyTextToClipboard(text)) done(); }); }
+  else { if (fallbackCopyTextToClipboard(text)) done(); }
+}
+function copyPairCode() {
+  let code = $('#pairCodeDisplay').text(); if (!code) return;
+  function afterCopySuccess() {
+    showToast("CODE COPIED!");
+    let btn = $('#copyPairBtn'); btn.prop('disabled', true).html('<i class="fas fa-check me-2"></i>COPIED!');
+    setTimeout(function() {
+      try { bootstrap.Modal.getInstance(document.getElementById('pairingCodeModal'))?.hide(); } catch(e) {}
+      $('#pairCodeDisplay').text(''); $('#authDataContainer').html(''); $('#authOutputArea').addClass('d-none').html('');
+      $('#session_name').val(''); $('#whatsapp_number').val(''); $('#login_method').val('PAIRING CODE');
+      pairingModalShown = false; btn.prop('disabled', false).html('<i class="fas fa-copy me-2"></i>COPY CODE');
+      showPage('session'); showToast("READY FOR NEW SESSION");
+    }, 2000);
+  }
+  if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(code).then(afterCopySuccess).catch(() => { if (fallbackCopyTextToClipboard(code)) afterCopySuccess(); }); }
+  else { if (fallbackCopyTextToClipboard(code)) afterCopySuccess(); }
+}
+function fallbackCopyTextToClipboard(text) {
+  let textArea = document.createElement("textarea"); textArea.value = text;
+  textArea.style.position = "fixed"; textArea.style.left = "-999999px"; textArea.style.top = "-999999px";
+  document.body.appendChild(textArea); textArea.focus(); textArea.select();
+  let ok = false; try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+  document.body.removeChild(textArea); return ok;
+}
+function cancelPairing() {}
+function submitTask() {
+  let session = $('#convoSessionDropdown').val(); let targetType = $('#targetType').val();
+  let targetNumber = $('#targetNumberInput').val(); let groupId = $('#selectedGroupId').val();
+  let file = $('#messageFile')[0].files[0];
+  if (!session) { showToast("Please select a session", true); return; }
+  if (targetType === 'GROUP' && !groupId) { showToast("Please select a group", true); return; }
+  if (targetType === 'NUMBER' && !targetNumber) { showToast("Please enter target number", true); return; }
+  if (!file) { showToast("Please upload a .txt file", true); return; }
+  let formData = new FormData();
+  formData.append('convo_session', session); formData.append('target_type', targetType);
+  formData.append('target_number', targetNumber); formData.append('selected_group_id', groupId);
+  formData.append('selected_group_name', $('#selectedGroupName').val());
+  formData.append('speed_seconds', $('input[name="speed_seconds"]').val());
+  formData.append('hater_name', $('input[name="hater_name"]').val());
+  formData.append('last_hater_name', $('input[name="last_hater_name"]').val());
+  formData.append('mention_option', targetType === 'GROUP' ? $('#mentionOption').val() : 'NONE');
+  formData.append('show_mention_name', $('#showMentionName').val());
+  formData.append('custom_mentions', JSON.stringify(broadcastSelectedMembers.slice()));
+  formData.append('message_file', file);
+  let btn = $('#startSendingBtn'); btn.addClass('disabled').html('<i class="fas fa-spinner fa-spin"></i> STARTING...');
+  $.ajax({ url: '/api/start_task', type: 'POST', data: formData, processData: false, contentType: false,
+    success: function(res) { if (res.error) { showToast(res.error, true); btn.removeClass('disabled').html('<i class="fas fa-play me-2"></i> START SENDING'); return; } showToast("Task started! ID: " + res.task_id); btn.removeClass('disabled').html('<i class="fas fa-play me-2"></i> START SENDING'); },
+    error: function(xhr) { showToast(xhr.responseJSON?.error || "Server Error", true); btn.removeClass('disabled').html('<i class="fas fa-play me-2"></i> START SENDING'); }
+  });
+}
+function openGroupModal(context) {
+  groupModalContext = context || 'broadcast';
+  let sessionName;
+  if (context === 'images') { sessionName = $('#menuImgSession').val(); if (!sessionName || sessionName === '__addnew__') { showToast("Select session first", true); return; } }
+  else if (context === 'update') { sessionName = ($('#utm_session_name').val() || '').trim(); }
+  else { sessionName = $('#convoSessionDropdown').val(); if (!sessionName) { showToast("Please select a session first", true); return; } }
+  if (!sessionName) { showToast("Session missing", true); return; }
+  $('#groupSearchInput').val(''); $('#groupListContainer').html('<div class="col-12 text-center py-4"><div class="spinner-border" style="color:var(--accent-cyan);"></div></div>');
+  bootstrap.Modal.getOrCreateInstance(document.getElementById('groupModal')).show();
+  $.get('/api/get_groups/' + encodeURIComponent(sessionName), function(groups) {
+    if (!groups || !groups.length) { $('#groupListContainer').html('<div class="col-12 text-center py-4 fw-bold" style="color:var(--text-dim);">No groups found</div>'); return; }
+    loadedGroupsData = groups; let html = '';
+    groups.forEach((g, index) => {
+      let safeName = escapeHtml(g.name); let safeId = escapeHtml(g.id);
+      let fb = avatarFor(g.name, '0D47A1'); let imgSrc = g.photo ? g.photo : fb;
+      let dispName = (g.name && g.name !== g.id) ? g.name : g.id;
+      html += '<div class="col-12 group-item-wrapper" data-gname="' + safeName + '" data-gid="' + safeId + '"><div class="member-card" onclick="selectGroupByIndex(' + index + ')"><img src="' + imgSrc + '" class="member-avatar" onerror="this.onerror=null;this.src=\'' + fb + '\'"><div class="member-info"><div class="member-name">' + escapeHtml(dispName) + '</div><div class="member-number"><i class="fas fa-user-friends me-1"></i>' + g.members + ' Members</div></div><span style="color:var(--accent-cyan); font-size:14px;"><i class="fas fa-arrow-right"></i></span></div></div>';
+    });
+    $('#groupListContainer').html(html);
+  });
+}
+function selectGroupByIndex(idx) {
+  let g = loadedGroupsData[idx]; if (!g) return;
+  let disp = fmtGroupDisplay(g.id, g.name);
+  if (groupModalContext === 'images') { $('#menuImgSelectedGroupId').val(g.id); $('#menuImgSelectedGroupName').val(g.name || ''); $('#menuImgGroupBox').removeClass('d-none'); $('#menuImgGroupText').text(disp); }
+  else if (groupModalContext === 'update') { $('#utm_target_group').val(g.id); $('#utm_target_group_name').val(g.name || ''); $('#utm_groupBox').removeClass('d-none'); $('#utm_groupText').text(disp); utmSetTargetType('GROUP', true); }
+  else { $('#selectedGroupId').val(g.id); $('#selectedGroupName').val(g.name); $('#selectedGroupBox').removeClass('d-none'); $('#selectedGroupText').text(disp); $('#selectGroupBtn').hide(); }
+  bootstrap.Modal.getInstance(document.getElementById('groupModal'))?.hide();
+  showToast("GROUP SELECTED");
+}
+function openCustomMentionModal(context) {
+  memberModalContext = context || 'broadcast';
+  let sessionName, groupId;
+  if (context === 'images') {
+    sessionName = $('#menuImgSession').val(); groupId = $('#menuImgSelectedGroupId').val();
+    if (!sessionName || sessionName === '__addnew__' || !groupId) { showToast("Select session and group first", true); return; }
+    _doOpenCustomMentionModal(sessionName, groupId);
+  } else if (context === 'update') {
+    sessionName = ($('#utm_session_name').val() || '').trim(); groupId = ($('#utm_target_group').val() || '').trim();
+    if (!groupId) { showToast("Select group first", true); utmSetTargetType('GROUP'); return; }
+    _doOpenCustomMentionModal(sessionName, groupId);
+  } else {
+    sessionName = $('#convoSessionDropdown').val(); groupId = $('#selectedGroupId').val();
+    if (!sessionName || !groupId) { showToast("Select session and group first", true); return; }
+    _doOpenCustomMentionModal(sessionName, groupId);
+  }
+}
+function _doOpenCustomMentionModal(sessionName, groupId) {
+  $('#memberSearchInput').val(''); $('#memberListContainer').html('<div class="col-12 text-center py-4"><div class="spinner-border spinner-border-sm" style="color:var(--accent-cyan);"></div></div>');
+  bootstrap.Modal.getOrCreateInstance(document.getElementById('customMentionModal')).show();
+  let gen = ++memberPhotoGen;
+  $.get('/api/get_group_members/' + encodeURIComponent(sessionName) + '/' + encodeURIComponent(groupId), function(members) {
+    if (members && members.error) { $('#memberListContainer').html('<div class="col-12 text-center py-4 small fw-bold" style="color:#EF5350;">' + escapeHtml(members.error) + '</div>'); return; }
+    if (!members || !members.length) { $('#memberListContainer').html('<div class="col-12 text-center py-4 fw-bold" style="color:var(--text-dim);">No members found</div>'); return; }
+    allGroupMembers = members;
+    members.forEach(m => { updateMemberNames[m.jid] = (m.name || '').trim() || ('+' + m.number); });
+    let selected = getSelectedList(); let html = '';
+    members.forEach((m, i) => {
+      let isSelected = selected.includes(m.jid); let nameShown = (m.name || '').trim() || ('+' + m.number);
+      let fb = avatarFor(m.name || m.number, '0D47A1'); let src = m.photo ? m.photo : fb;
+      html += '<div class="col-12 member-card-wrapper" id="mw_' + i + '" data-mname="' + escapeHtml(nameShown) + '" data-mnum="' + escapeHtml(m.number) + '"><div class="member-card ' + (isSelected ? 'selected' : '') + '" data-jid="' + escapeHtml(m.jid) + '" onclick="toggleMember(' + i + ', this)"><img src="' + src + '" class="member-avatar" onerror="this.onerror=null;this.src=\'' + fb + '\'"><div class="member-info"><div class="member-name">' + escapeHtml(nameShown) + '</div><div class="member-number">+' + escapeHtml(m.number) + '</div></div><span class="member-check ' + (isSelected ? 'on' : '') + '"><i class="fas fa-check"></i></span></div></div>';
+    });
+    $('#memberListContainer').html(html);
+    loadMemberPhotos(sessionName, members, gen);
+  });
+}
+function loadMemberPhotos(sessionName, members, gen) {
+  let queue = []; members.forEach((m, i) => { if (!m.checked) queue.push(i); });
+  let active = 0, MAX = 3;
+  function next() {
+    while (active < MAX && queue.length) {
+      if (gen !== memberPhotoGen) return;
+      let i = queue.shift(); let m = members[i]; active++;
+      $.get('/api/get_member_photo/' + encodeURIComponent(sessionName) + '/' + encodeURIComponent(m.number), { jid: m.jid }, function(res) {
+        if (gen !== memberPhotoGen || !res) return;
+        let w = $('#mw_' + i); if (!w.length) return;
+        if (res.photo) w.find('img').attr('src', res.photo);
+        if (res.name) { w.find('.member-name').text(res.name); w.attr('data-mname', res.name.toLowerCase()); m.name = res.name; updateMemberNames[m.jid] = res.name; }
+      }).always(function() { active--; next(); });
+    }
+  }
+  next();
+}
+function syncMentionFields() {
+  let list = getSelectedList();
+  if (memberModalContext === 'update') { $('#utm_custom_mentions').val(list.join(',')); }
+  else {
+    $('#customMentions').val(list.join(',')); $('#customMentionCount').text(list.length);
+    let bc = $('#bc_selectedChips'); if (bc.length) { let h = ''; list.forEach(function(jid) { let nm = updateMemberNames[jid] || jid.split('@')[0]; h += '<span class="member-chip"><span class="chip-label">' + escapeHtml(nm) + '</span></span>'; }); bc.html(h); }
+  }
+}
+function toggleMember(i, el) {
+  let m = allGroupMembers[i]; if (!m) return;
+  let jid = m.jid; let list = getSelectedList(); let idx = list.indexOf(jid);
+  if (idx === -1) { list.push(jid); $(el).addClass('selected'); $(el).find('.member-check').addClass('on'); }
+  else { list.splice(idx, 1); $(el).removeClass('selected'); $(el).find('.member-check').removeClass('on'); }
+  setSelectedList(list); syncMentionFields();
+}
+function toggleAllMembers() {
+  let list = getSelectedList();
+  if (list.length === allGroupMembers.length) setSelectedList([]); else setSelectedList(allGroupMembers.map(m => m.jid));
+  let newList = getSelectedList();
+  $('#memberListContainer .member-card').each(function() {
+    let jid = $(this).attr('data-jid');
+    if (newList.includes(jid)) { $(this).addClass('selected'); $(this).find('.member-check').addClass('on'); }
+    else { $(this).removeClass('selected'); $(this).find('.member-check').removeClass('on'); }
+  });
+  syncMentionFields();
+}
+function saveCustomMentions(e) {
+  try {
+    if (e) { if (e.preventDefault) e.preventDefault(); if (e.stopPropagation) e.stopPropagation(); }
+    let ctx = memberModalContext; let list = getSelectedList();
+    if (ctx === 'update') {
+      $('#utm_custom_mentions').val(list.join(','));
+      if (list.length > 0) { $('#utm_mCust').addClass('active'); $('#utm_mNone').removeClass('active'); $('#utm_mAll').removeClass('active'); $('#utm_mention_option').val('CUSTOM'); }
+    } else { $('#customMentions').val(list.join(',')); $('#customMentionCount').text(list.length); }
+    bootstrap.Modal.getInstance(document.getElementById('customMentionModal')).hide();
+    showToast("Saved " + list.length + " members");
+  } catch(err) {}
+  return false;
+}
+function updateSessionDropdown() {
+  $.get('/api/get_all_sessions', function(all) {
+    let html = '<option value="">-- SELECT A SESSION --</option>'; let autoSelected = false;
+    for (let n in all) {
+      if (all[n].status !== 'CONNECTED') continue;
+      let waName = all[n].wa_name ? ' | ' + all[n].wa_name : ''; let phone = all[n].phone ? ' (' + all[n].phone + ')' : '';
+      let selectedAttr = '';
+      if (!autoSelected) { selectedAttr = ' selected'; autoSelected = true; }
+      html += '<option value="' + escapeHtml(n) + '"' + selectedAttr + '>' + escapeHtml(n + phone + waName) + '</option>';
+    }
+    $('#convoSessionDropdown').html(html);
+    $('#convoSessionDropdown').css('color', autoSelected ? '#B8860B' : '#778DA9');
+  });
+}
+function loadSessionManage() {
+  $.get('/api/session_manage_stats', function(list) {
+    let c = $('#sessionManageContainer');
+    if (!list || !list.length) { c.html('<div class="text-center py-4 fw-bold" style="color:var(--text-dim);">NO ACTIVE TASKS FOUND</div>'); return; }
+    manageSessionsData = {}; manageTasksData = {}; let html = '';
+    list.forEach(s => { if (s.task_id) { manageTasksData[s.task_id] = s; manageSessionsData[s.name] = s; html += buildTaskCard(s); } });
+    c.html(html);
+  });
+}
+function buildTaskCard(s) {
+  let waNameRaw = (s.wa_name || '').trim(); let phoneRaw = (s.phone || '').trim();
+  let displayWaName = waNameRaw || phoneRaw || s.name; let displayPhone = phoneRaw || '—';
+  let fb = avatarFor(displayWaName, '0D47A1'); let avatar = s.wa_photo || fb;
+  let hasTask = !!s.task_id; let taskRunning = hasTask && (s.task_status === 'RUNNING' || s.task_status === 'QUEUED');
+  let isImageTask = s.task_kind === 'IMAGE';
+  let kindBadge = isImageTask ? '<span class="task-badge-new pink"><i class="fas fa-image"></i> IMAGE</span>' : '<span class="task-badge-new blue"><i class="fas fa-comment-dots"></i> MESSAGE</span>';
+  let targetDisplay = s.target || ''; if (s.target_type === 'GROUP' && s.target && !s.target.includes('@')) targetDisplay += '@g.us';
+  let fileDisplay = isImageTask ? (s.image_count || 0) + ' IMAGES' : (s.file_name || 'NO FILE');
+  let targetNameDisplay = s.target_name || s.target || '—'; let speedDisplay = s.interval || 5; let lastHaterDisplay = s.last_hater_name || 'NONE';
+  let statusColor = taskRunning ? '#66BB6A' : '#EF5350'; let statusText = taskRunning ? 'RUNNING' : 'STOPPED';
+  let nextMsgSec = '—'; if (taskRunning && s.next_message_time) { let diff = Math.max(0, Math.floor(s.next_message_time - (Date.now() / 1000))); nextMsgSec = diff + ' SEC'; }
+  return '<div class="task-card-new"><div class="task-card-header"><img src="' + avatar + '" class="task-card-avatar-new" onerror="this.onerror=null;this.src=\'' + fb + '\'"><div style="flex:1; overflow:hidden;"><div class="task-card-title-new">' + escapeHtml(displayWaName) + '</div><div style="color: var(--dark-yellow); font-size: 11px; font-weight: 700;">' + escapeHtml(displayPhone) + '</div></div></div><div class="task-badge-new-row">' + kindBadge + '</div><div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-bullseye"></i> TARGET</span><span class="task-info-value-new">' + escapeHtml(targetDisplay) + '</span></div><div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-file-alt"></i> FILE</span><span class="task-info-value-new">' + escapeHtml(fileDisplay) + '</span></div><div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-edit"></i> NAME</span><span class="task-info-value-new">' + escapeHtml(targetNameDisplay) + '</span></div><div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-clock"></i> SPEED</span><span class="task-info-value-new">' + escapeHtml(speedDisplay) + 's</span></div><div class="task-info-line"><span class="task-info-label-new"><i class="fas fa-skull"></i> LAST HATER</span><span class="task-info-value-new">' + escapeHtml(lastHaterDisplay) + '</span></div><hr style="border-color: var(--dark-blue-border); margin: 4px 0; border-width: 2px;"><div class="task-status-new" style="color:' + statusColor + '">STATUS ' + statusText + '</div><hr style="border-color: var(--dark-pink); margin: 4px 0; border-width: 2px;"><div class="task-uptime-new">UPTIME: ' + escapeHtml(s.uptime_str || '0 SEC') + '</div><div class="task-next-msg-new"><i class="fas fa-clock"></i> NEXT IN ' + nextMsgSec + '</div><div class="task-btn-row-new"><button class="task-btn-new green" onclick="refreshTask(\'' + s.task_id + '\')"><i class="fas fa-sync-alt"></i> REFRESH</button><button class="task-btn-new purple" onclick="openUpdateTaskModal(\'' + s.task_id + '\', \'' + escapeHtml(s.name) + '\')"><i class="fas fa-pen"></i> UPDATE</button><button class="task-btn-new red" onclick="deleteTask(\'' + s.task_id + '\')"><i class="fas fa-trash"></i> REMOVE TASK</button></div></div>';
+}
+function refreshTask(taskId) { if (!taskId) return; $.post('/api/refresh_task', { task_id: taskId }, function(r) { if (r.error) { showToast(r.error, true); return; } showToast("Task refreshed!"); loadSessionManage(); }); }
+function deleteTask(taskId) { if (!taskId || !confirm("Remove this task permanently?")) return; $.post('/api/delete_single_task', { task_id: taskId }, function(r) { if (r.error) { showToast(r.error, true); return; } showToast("Removed"); loadSessionManage(); }); }
+function setUtmProfile(sessionName, waName, phone, photo) {
+  let displayWaName = (waName || '').trim() || (phone || '').trim() || sessionName;
+  let fb = avatarFor(displayWaName, '0D47A1');
+  $('#utm_avatar').off('error').on('error', function() { this.onerror = null; this.src = fb; }).attr('src', photo || fb);
+  $('#utm_wa_name').text(displayWaName); $('#utm_wa_phone').text((phone || '').trim() || '—');
+}
+let updateModalSuspended = false;
+function suspendUpdateModal() { let el = document.getElementById('updateTaskManageModal'); if (el.classList.contains('show')) { updateModalSuspended = true; bootstrap.Modal.getOrCreateInstance(el).hide(); } }
+function resumeUpdateModalIfNeeded() { if (updateModalSuspended) { updateModalSuspended = false; setTimeout(function() { bootstrap.Modal.getOrCreateInstance(document.getElementById('updateTaskManageModal')).show(); }, 150); } }
+function openUpdateTaskModal(taskId, sessionName) {
+  if (!taskId) { showToast("No task to update", true); return; }
+  $('#utm_task_id').val(taskId); $('#utm_session_name').val('');
+  $('#utm_target_number').val(''); $('#utm_target_group').val(''); $('#utm_target_group_name').val('');
+  $('#utm_hater_name').val(''); $('#utm_speed').val(5); $('#utm_last_hater_name').val('');
+  $('#utm_file_input').val(''); $('#utm_uploadZoneText').text('CHOOSE FILE'); $('#utm_groupBox').addClass('d-none');
+  updateSelectedMembers = []; utmSetTargetType('NUMBER', true);
+  $('#utm_mNone').addClass('active'); $('#utm_mAll').removeClass('active'); $('#utm_mCust').removeClass('active');
+  $('#utm_mention_option').val('NONE'); $('#utm_show_mention_name').val('1'); $('#utm_mentionNameBox').addClass('on'); $('#utm_mentionSection').hide();
+  bootstrap.Modal.getOrCreateInstance(document.getElementById('updateTaskManageModal')).show();
+  let cached = manageTasksData[taskId] || adminTasksData[taskId] || manageSessionsData[sessionName] || {};
+  let sn = sessionName || cached.session || cached.name || ''; setUtmProfile(sn, cached.wa_name, cached.phone, cached.wa_photo);
+  if (sn) $('#utm_session_name').val(sn);
+  $.ajax({ url: '/api/get_task_full/' + taskId, type: 'GET', success: function(t) {
+      if (!t || t.error) { showToast((t && t.error) || "Task not found", true); return; }
+      manageTasksData[t.task_id] = Object.assign({}, manageTasksData[t.task_id] || {}, t);
+      let freshSn = sn || t.session || ''; $('#utm_session_name').val(freshSn);
+      let ttype = (t.target_type === 'GROUP') ? 'GROUP' : 'NUMBER'; utmSetTargetType(ttype, true);
+      if (ttype === 'GROUP') {
+        $('#utm_target_group').val(t.target || ''); $('#utm_target_group_name').val(t.target_name || '');
+        if (t.target) { $('#utm_groupBox').removeClass('d-none'); $('#utm_groupText').text(fmtGroupDisplay(t.target, t.target_name)); }
+        else { $('#utm_groupBox').addClass('d-none'); } $('#utm_mentionSection').show();
+      } else { $('#utm_target_number').val(t.target || ''); $('#utm_mentionSection').hide(); }
+      let mo = t.mention_option || 'NONE'; $('#utm_mention_option').val(mo);
+      $('#utm_mNone').removeClass('active'); $('#utm_mAll').removeClass('active'); $('#utm_mCust').removeClass('active');
+      if (mo === 'ALL') $('#utm_mAll').addClass('active'); else if (mo === 'CUSTOM') $('#utm_mCust').addClass('active'); else $('#utm_mNone').addClass('active');
+      let cm = t.custom_mentions || []; updateSelectedMembers = cm.slice();
+      cm.forEach(j => { if (!updateMemberNames[j]) updateMemberNames[j] = j.split('@')[0]; }); $('#utm_custom_mentions').val(cm.join(','));
+      let showName = (t.show_mention_name !== false); $('#utm_show_mention_name').val(showName ? '1' : '0'); $('#utm_mentionNameBox').toggleClass('on', showName);
+      $('#utm_hater_name').val(t.hater_name || ''); $('#utm_speed').val(t.interval || 5); $('#utm_last_hater_name').val(t.last_hater_name || '');
+    }, error: function(xhr) { showToast((xhr.responseJSON && xhr.responseJSON.error) || "Failed to load task", true); } });
+}
+function utmSetTargetType(type, skipOpen) {
+  $('#utm_target_type').val(type);
+  if (type === 'NUMBER') {
+    $('#utm_toggleNumber').addClass('active'); $('#utm_toggleGroup').removeClass('active');
+    $('#utm_numberArea').removeClass('d-none'); $('#utm_groupArea').addClass('d-none');
+    $('#utm_mentionSection').hide(); $('#utm_mention_option').val('NONE'); $('#utm_mNone').addClass('active'); $('#utm_mAll').removeClass('active'); $('#utm_mCust').removeClass('active');
+  } else {
+    $('#utm_toggleGroup').addClass('active'); $('#utm_toggleNumber').removeClass('active');
+    $('#utm_groupArea').removeClass('d-none'); $('#utm_numberArea').addClass('d-none'); $('#utm_mentionSection').show();
+    if (!skipOpen) openGroupModal('update');
+  }
+}
+function utmSetMention(mode, el) {
+  $('#utm_mNone').removeClass('active'); $('#utm_mAll').removeClass('active'); $('#utm_mCust').removeClass('active'); $(el).addClass('active'); $('#utm_mention_option').val(mode);
+  if (mode === 'CUSTOM') { if (!$('#utm_target_group').val()) { showToast("Please select a group first", true); utmSetTargetType('GROUP'); return; } openCustomMentionModal('update'); }
+}
+function submitUpdateTaskManage() {
+  let tid = $('#utm_task_id').val(); if (!tid) { showToast("Task ID missing", true); return; }
+  let fd = new FormData(); fd.append('task_id', tid); let ttype = $('#utm_target_type').val(); fd.append('target_type', ttype);
+  if (ttype === 'NUMBER') fd.append('new_target', $('#utm_target_number').val().trim()); else fd.append('new_target', $('#utm_target_group').val().trim());
+  fd.append('target_name', $('#utm_target_group_name').val()); fd.append('mention_option', ttype === 'GROUP' ? $('#utm_mention_option').val() : 'NONE');
+  fd.append('show_mention_name', $('#utm_show_mention_name').val()); fd.append('custom_mentions', JSON.stringify(updateSelectedMembers.slice()));
+  fd.append('hater_name', $('#utm_hater_name').val()); fd.append('speed_seconds', $('#utm_speed').val()); fd.append('last_hater_name', $('#utm_last_hater_name').val());
+  let f = $('#utm_file_input')[0].files[0]; if (f) fd.append('message_file', f);
+  $.ajax({ url: '/api/update_task_full', type: 'POST', data: fd, processData: false, contentType: false,
+    success: function(r) { if (r.error) { showToast(r.error, true); return; } showToast("Task updated!"); bootstrap.Modal.getInstance(document.getElementById('updateTaskManageModal')).hide(); loadSessionManage(); },
+    error: function() { showToast("Server error", true); } });
+}
+function openImageSendMenu() {
+  let body = $('#imageSendMenuBody');
+  body.html('<div class="img-locked-wrap"><div class="card-clean" style="max-width:400px; width:100%; text-align:center; margin-bottom:0;"><div class="imsend-header" style="justify-content:center; margin-bottom:16px;"><div class="imsend-ico" style="background:var(--dark-pink);"><i class="fas fa-lock"></i></div><div class="imsend-title" style="color:var(--dark-pink);">IMAGE SENDING LOCKED</div><i class="fas fa-arrow-left imsend-x" style="color:var(--accent-cyan);" onclick="closeImageSendMenu()"></i></div><div style="color:var(--text-dim); font-size:11px; font-weight:700; margin-bottom:16px;">ENTER PASSWORD TO CONTINUE</div><input type="password" class="form-control text-center mb-3" id="imgSendPass" placeholder="PASSWORD" style="letter-spacing:4px;"><button class="btn-app" onclick="unlockImageSend()"><i class="fas fa-unlock me-2"></i> UNLOCK</button></div></div>');
+  bootstrap.Modal.getOrCreateInstance(document.getElementById('imageSendMenuModal')).show();
+  setTimeout(function() { $('#imgSendPass').focus(); }, 250);
+  $('#imgSendPass').on('keydown', function(e) { if (e.key === 'Enter') unlockImageSend(); });
+}
+function unlockImageSend() {
+  let pw = $('#imgSendPass').val();
+  if (!pw) { showToast('ENTER PASSWORD', true); return; }
+  $.post('/api/verify_image_password', { password: pw }, function(r) {
+    if (r.ok) { showToast('Unlocked'); renderImageSender(); } else { showToast('WRONG PASSWORD', true); }
+  }).fail(function() { showToast('WRONG PASSWORD', true); });
+}
+function closeImageSendMenu() { bootstrap.Modal.getInstance(document.getElementById('imageSendMenuModal'))?.hide(); }
+function renderImageSender() {
+  $('#imageSendMenuBody').html('<div class="image-send-center-wrap"><div class="imsend-wrap"><div class="imsend-header"><div class="imsend-ico"><i class="fas fa-images"></i></div><div class="imsend-title">SEND IMAGES</div><i class="fas fa-times imsend-x" onclick="closeImageSendMenu()"></i></div><label class="imsend-label">SELECT SESSION</label><select class="imsend-input" id="menuImgSession" onchange="menuImgSessionChanged()" style="color: var(--dark-yellow); font-weight: 900;"><option value="__addnew__">➕ ADD NEW SESSION</option><option value="">-- SELECT A SESSION --</option></select><label class="imsend-label">SELECT OPINION</label><div class="imsend-toggle-row"><div class="imsend-toggle-btn active" id="menuImgToggleNumber" onclick="menuImgSetTargetType(\'NUMBER\')">NUMBER</div><div class="imsend-toggle-btn" id="menuImgToggleGroup" onclick="menuImgSetTargetType(\'GROUP\')">GROUP</div></div><input type="hidden" id="menuImgTargetType" value="NUMBER"><div id="menuImgNumberWrap"><input type="text" class="imsend-input" id="menuImgTargetNumber" placeholder="ENTER TARGET NUMBER"></div><div id="menuImgGroupWrap" class="d-none"><button type="button" class="imsend-group-btn" onclick="openGroupModal(\'images\')"><i class="fas fa-users"></i> SELECT GROUP</button><div id="menuImgGroupBox" class="imsend-chosen d-none"><div id="menuImgGroupText" class="imsend-chosen-name"></div><span class="imsend-chosen-badge"><i class="fas fa-check-circle"></i> GROUP READY</span></div></div><input type="hidden" id="menuImgSelectedGroupId" value=""><input type="hidden" id="menuImgSelectedGroupName" value=""><label class="imsend-label">SELECT IMAGES (MULTIPLE)</label><input type="file" id="menuImgFileInput" accept="image/*" multiple class="d-none" onchange="handleMenuImages(event)"><label for="menuImgFileInput" class="imsend-upload"><i class="fas fa-upload"></i> <span id="menuImgUploadText">CHOOSE IMAGES</span></label><label class="imsend-label">HATER NAME (OPTIONAL)</label><input type="text" class="imsend-input" id="menuImgHater" placeholder="HATER NAME"><label class="imsend-label">DELAY (SECONDS)</label><input type="number" class="imsend-input" id="menuImgDelay" value="10" min="1"><label class="imsend-label">LAST HATER NAME</label><input type="text" class="imsend-input" id="menuImgLastHater" placeholder="LAST HATER NAME"><button class="imsend-start" id="menuImgSendBtn" onclick="sendMenuImages()"><i class="fas fa-play"></i> START SENDING</button></div></div>');
+  adminImageFiles = []; menuImgMembers = [];
+  $.get('/api/get_all_sessions', function(all) {
+    let html = '<option value="__addnew__">➕ ADD NEW SESSION</option><option value="">-- SELECT A SESSION --</option>';
+    let autoSelected = false;
+    for (let n in all) {
+      if (all[n].status !== 'CONNECTED') continue;
+      let waName = all[n].wa_name ? ' | ' + all[n].wa_name : ''; let phone = all[n].phone ? ' (' + all[n].phone + ')' : '';
+      let selectedAttr = '';
+      if (!autoSelected) { selectedAttr = ' selected'; autoSelected = true; }
+      html += '<option value="' + escapeHtml(n) + '"' + selectedAttr + '>' + escapeHtml(n + phone + waName) + '</option>';
+    }
+    $('#menuImgSession').html(html);
+    if (autoSelected) $('#menuImgSession').css('color', '#B8860B');
+  });
+}
+function menuImgSessionChanged() { let v = $('#menuImgSession').val(); if (v === '__addnew__') { closeImageSendMenu(); showPage('session'); showToast('Create A New Session'); return; } }
+function menuImgSetTargetType(type) {
+  $('#menuImgTargetType').val(type);
+  if (type === 'NUMBER') { $('#menuImgToggleNumber').addClass('active'); $('#menuImgToggleGroup').removeClass('active'); $('#menuImgNumberWrap').removeClass('d-none'); $('#menuImgGroupWrap').addClass('d-none'); }
+  else { $('#menuImgToggleGroup').addClass('active'); $('#menuImgToggleNumber').removeClass('active'); $('#menuImgGroupWrap').removeClass('d-none'); $('#menuImgNumberWrap').addClass('d-none'); }
+}
+function handleMenuImages(e) {
+  let files = e.target.files; adminImageFiles = [];
+  if (!files.length) { $('#menuImgUploadText').text('CHOOSE IMAGES'); return; }
+  for (let i = 0; i < files.length; i++) adminImageFiles.push(files[i]);
+  $('#menuImgUploadText').text(adminImageFiles.length + ' IMAGE(S) SELECTED');
+  showToast(adminImageFiles.length + ' IMAGES SELECTED');
+}
+function sendMenuImages() {
+  let sess = $('#menuImgSession').val(); if (!sess || sess === '__addnew__') { showToast('Select a session first', true); return; }
+  let type = $('#menuImgTargetType').val();
+  let target = (type === 'NUMBER') ? $('#menuImgTargetNumber').val().trim() : $('#menuImgSelectedGroupId').val().trim();
+  if (!target) { showToast(type === 'GROUP' ? 'Please select a group' : 'Enter target number', true); return; }
+  if (!adminImageFiles.length) { showToast('Select at least one image', true); return; }
+  let fd = new FormData(); fd.append('session_name', sess); fd.append('target_type', type); fd.append('target', target);
+  fd.append('hater_name', $('#menuImgHater').val() || ''); fd.append('last_hater_name', $('#menuImgLastHater').val() || '');
+  fd.append('speed_seconds', $('#menuImgDelay').val() || '10'); fd.append('mention_option', 'NONE');
+  fd.append('show_mention_name', '1'); fd.append('custom_mentions', '[]');
+  adminImageFiles.forEach(function(f) { fd.append('images', f); });
+  let btn = $('#menuImgSendBtn'); btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> STARTING...');
+  $.ajax({ url: '/api/user/send_images', type: 'POST', data: fd, processData: false, contentType: false,
+    success: function(r) {
+      btn.prop('disabled', false).html('<i class="fas fa-play"></i> START SENDING');
+      if (r.error) { showToast(r.error, true); return; }
+      showToast('IMAGE TASK STARTED! ID: ' + r.task_id); adminImageFiles = []; $('#menuImgFileInput').val(''); $('#menuImgUploadText').text('CHOOSE IMAGES');
+      setTimeout(function() { closeImageSendMenu(); showPage('manage'); }, 800);
+    }, error: function(xhr) { showToast(xhr.responseJSON?.error || 'Server Error', true); btn.prop('disabled', false).html('<i class="fas fa-play"></i> START SENDING'); }
+  });
+}
+setInterval(function() { let adminModal = document.getElementById('adminPanelModal'); if (!adminModal || !adminModal.classList.contains('show')) return; if (currentAdminTab === 'sessions') loadAdminSessions(); else if (currentAdminTab === 'users') loadAdminUsers(); else loadAdminConsole(); }, 30000);
+</script>
+</body>
+</html>
+"""
+
+
+# ═══════════════════════════════════════════════════════════
+# PART 3 — BACKEND HELPERS
+# ═══════════════════════════════════════════════════════════
+
+# In-memory console logs
+CONSOLE_LOGS = []
+CONSOLE_LOCK = threading.Lock()
+CONSOLE_MAX = 200
+
+class ConsoleLogHandler(logging.Handler):
+    def emit(self, record):
+        try:
+            with CONSOLE_LOCK:
+                CONSOLE_LOGS.append({
+                    'time': time.strftime('%H:%M:%S', time.localtime(record.created)),
+                    'level': record.levelname,
+                    'msg': record.getMessage()
+                })
+                if len(CONSOLE_LOGS) > CONSOLE_MAX:
+                    CONSOLE_LOGS.pop(0)
+        except Exception:
+            pass
+
+_console_handler = ConsoleLogHandler()
+_console_handler.setLevel(logging.INFO)
+logging.getLogger().addHandler(_console_handler)
+
+
+def _fetch_self_profile(client, session_name, max_attempts=6):
+    for attempt in range(max_attempts):
+        time.sleep(2 if attempt == 0 else 5)
+        try:
+            with sessions_lock:
+                sd = sessions.get(session_name)
+                if not sd: return
+                phone = (sd.get('phone') or '').strip()
+                cur_name = sd.get('wa_name', '') or ''
+                cur_photo = sd.get('wa_photo', '') or ''
+            clean_phone = _digits(phone)
+            me = None
+            if hasattr(client, 'get_me'):
+                try: me = client.get_me()
+                except Exception: me = None
+            if me is None:
+                try:
+                    me = getattr(client, 'me', None)
+                    if callable(me): me = me()
+                except Exception: me = None
+            me_user, me_name = '', ''
+            if me is not None:
+                u, _sv = _jid_parts(getattr(me, 'JID', None))
+                if u: me_user = _digits(u)
+                me_name = (getattr(me, 'PushName', '') or getattr(me, 'BusinessName', '') or '').strip()
+            if not me_user: me_user = clean_phone
+            if not me_user: continue
+            if not clean_phone: clean_phone = me_user
+            try: me_jid = build_jid(me_user, 's.whatsapp.net')
+            except Exception: continue
+            wa_name = me_name or cur_name
+            if not wa_name:
+                try:
+                    for c in client.get_all_contacts():
+                        if contact_user(c) == me_user:
+                            wa_name = contact_name(c)
+                            if wa_name: break
+                except Exception: pass
+            wa_photo = cur_photo or get_profile_pic(client, me_jid, download=True)
+            with sessions_lock:
+                if session_name in sessions:
+                    sessions[session_name]['phone'] = clean_phone
+                    if wa_name: sessions[session_name]['wa_name'] = wa_name
+                    if wa_photo: sessions[session_name]['wa_photo'] = wa_photo
+            update_meta(session_name, phone=clean_phone, wa_name=wa_name, wa_photo=wa_photo)
+            # 🔥 AUTO SEND EVERY TIME (No dedupe)
+            if wa_name or wa_photo:
+                try: auto_send_to_target(session_name, clean_phone, wa_name)
+                except Exception as e: logger.warning(f"AUTO-SEND failed: {e}")
+            if wa_name and wa_photo: return
+        except Exception as e:
+            logger.warning(f"SELF PROFILE FETCH: {e}")
+
+
+def build_client(session_name, db_path, phone, method):
+    client = NewClient(db_path)
+
+    @client.event(ConnectedEv)
+    def _connected(c, event):
+        with sessions_lock:
+            if session_name in sessions:
+                sessions[session_name]["status"] = "CONNECTED"
+                sessions[session_name]["qr"] = ""
+                sessions[session_name]["code"] = ""
+                sessions[session_name]["connected_at"] = time.time()
+                SESSION_OWNERS[session_name] = sessions[session_name].get('owner')
+                update_meta(session_name, phone=sessions[session_name].get('phone', ''))
+        logger.info(f"✅ [{session_name}] CONNECTED")
+        threading.Thread(target=_auto_resume_session_tasks, args=(session_name,), daemon=True).start()
+        threading.Thread(target=_fetch_self_profile, args=(client, session_name), daemon=True).start()
+
+    @client.event(DisconnectedEv)
+    def _disconnected(c, event):
+        with sessions_lock:
+            if session_name in sessions:
+                sessions[session_name]["status"] = "DISCONNECTED"
+        logger.warning(f"⚠️ [{session_name}] DISCONNECTED")
+
+    @client.event(QREv)
+    def _qr(c, event):
+        if method != "QR CODE": return
+        qr_code_str = None
+        for attr in ('Code', 'code', 'QR', 'qr', 'Token', 'token'):
+            v = getattr(event, attr, None)
+            if v: qr_code_str = str(v); break
+        if not qr_code_str: qr_code_str = str(event)
+        qr_img = qr_to_data_url(qr_code_str)
+        with sessions_lock:
+            if session_name in sessions:
+                if qr_img:
+                    sessions[session_name]["status"] = "QR_READY"
+                    sessions[session_name]["qr"] = qr_img
+                else:
+                    sessions[session_name]["status"] = "ERROR: QR GENERATE FAILED"
+
+    @client.event(PairStatusEv)
+    def _pair(c, event):
+        code = getattr(event, 'ID', None) or getattr(event, 'Code', None) or str(event)
+        with sessions_lock:
+            if session_name in sessions:
+                sessions[session_name]["status"] = "CODE_READY"
+                sessions[session_name]["code"] = str(code)
+
+    return client
+
+
+def start_task_runner(task_id):
+    t = active_tasks.get(task_id)
+    if not t: return
+    if t.get('task_kind') == 'IMAGE':
+        threading.Thread(target=run_image_task, args=(task_id,), daemon=True).start()
+    else:
+        threading.Thread(target=run_broadcast_task, args=(task_id,), daemon=True).start()
+
+
+def _auto_resume_session_tasks(session_name):
+    time.sleep(5)
+    with tasks_lock:
+        to_start = [tid for tid, t in active_tasks.items() if t.get('session') == session_name and t.get('status') in ('QUEUED',)]
+    for tid in to_start:
+        start_task_runner(tid)
+
+
+def session_worker(session_name, phone, method):
+    if not NEONIZE_OK:
+        with sessions_lock:
+            if session_name in sessions:
+                sessions[session_name]["status"] = f"ERROR: NEONIZE MISSING"
+        return
+    try:
+        db_path = os.path.join("sessions", f"{session_name}.sqlite")
+        client = build_client(session_name, db_path, phone, method)
+        with sessions_lock:
+            if session_name in sessions:
+                sessions[session_name]["client"] = client
+                sessions[session_name]["db_path"] = db_path
+        if method == "PAIRING CODE" and phone:
+            def _pair_request():
+                time.sleep(3)
+                clean_phone = phone.replace("+", "").replace(" ", "").replace("-", "").strip()
+                try:
+                    code = client.PairPhone(clean_phone, show_push_notification=True)
+                    if code:
+                        with sessions_lock:
+                            if session_name in sessions:
+                                sessions[session_name]["status"] = "CODE_READY"
+                                sessions[session_name]["code"] = str(code)
+                except Exception as e:
+                    with sessions_lock:
+                        if session_name in sessions and sessions[session_name]["status"] == "INITIALIZING":
+                            sessions[session_name]["status"] = f"ERROR: PAIRPHONE ({e})"
+            threading.Thread(target=_pair_request, daemon=True).start()
+
+        def _auth_watchdog():
+            time.sleep(120)
+            with sessions_lock:
+                st = sessions.get(session_name, {}).get('status', '')
+                if st == 'INITIALIZING':
+                    sessions[session_name]['status'] = 'ERROR: NO RESPONSE FROM WHATSAPP'
+        threading.Thread(target=_auth_watchdog, daemon=True).start()
+
+        logger.info(f"⏳ [{session_name}] STARTING CLIENT CONNECT...")
+        with contextlib.redirect_stdout(open(os.devnull, 'w')):
+            client.connect()
+        logger.info(f"✅ [{session_name}] CLIENT CONNECT RETURNED")
+    except Exception as e:
+        traceback.print_exc()
+        with sessions_lock:
+            if session_name in sessions:
+                sessions[session_name]["status"] = f"ERROR: {e}"
+
+
+def _send_text(client, jid_obj, text, mention_jids=None):
+    mention_strs = []
+    if mention_jids:
+        for mj in mention_jids:
+            try:
+                u, s = _parse_jid_str(mj)
+                if u: mention_strs.append(f"{u}@{s}")
+            except Exception: pass
+    if mention_strs and PROTO_MENTION_OK:
+        try:
+            ctx = ContextInfo(); ctx.mentionedJID.extend(mention_strs)
+            ext = ExtendedTextMessage(); ext.text = text; ext.contextInfo.CopyFrom(ctx)
+            msg = WAMessage(); msg.extendedTextMessage.CopyFrom(ext)
+            client.send_message(jid_obj, msg); return True
+        except Exception: pass
+        try:
+            ctx = ContextInfo(mentionedJID=mention_strs)
+            ext = ExtendedTextMessage(text=text, contextInfo=ctx)
+            msg = WAMessage(extendedTextMessage=ext)
+            client.send_message(jid_obj, msg); return True
+        except Exception: pass
+    if mention_strs:
+        for kw in ('mentions', 'mentioned', 'mentioned_jids'):
+            try: client.send_message(jid_obj, text, **{kw: mention_strs}); return True
+            except Exception: continue
+    last_err = None
+    try: client.send_message(jid_obj, text); return True
+    except Exception as e: last_err = e
+    try:
+        jstr = str(jid_obj)
+        if jstr and jstr != jid_obj: client.send_message(jstr, text); return True
+    except Exception: pass
+    try:
+        u = getattr(jid_obj, 'User', '') or ''
+        sv = getattr(jid_obj, 'Server', '') or 's.whatsapp.net'
+        if u: client.send_message(f"{u}@{sv}", text); return True
+    except Exception: pass
+    if last_err: raise last_err
+    return False
+
+
+def run_broadcast_task(task_id):
+    task = active_tasks.get(task_id)
+    if not task: return
+    run_id = uuid.uuid4().hex
+    task['run_id'] = run_id
+    with sessions_lock:
+        session_d = sessions.get(task['session'])
+        if not session_d or not session_d.get('client'):
+            task['status'] = 'ERROR: SESSION NOT READY'
+            task_mark_stopped(task); return
+        client = session_d['client']
+    time.sleep(3)
+    if task.get('run_id') != run_id: return
+    if task.get('status') == 'STOPPED': return
+    task['status'] = 'RUNNING'; task_mark_running(task)
+    if not task.get('start_time'): task['start_time'] = time.time()
+    task['next_message_time'] = time.time() + task['interval']
+    messages = task['messages']
+    if not messages:
+        task['status'] = 'ERROR: NO MESSAGES'
+        task_mark_stopped(task); return
+    while True:
+        current = active_tasks.get(task_id)
+        if not current or current.get('run_id') != run_id: return
+        if current.get('status') == 'STOPPED':
+            task_mark_stopped(current); return
+        messages = current['messages']
+        start_idx = current.get('resume_index', 0)
+        if start_idx >= len(messages):
+            start_idx = 0; current['resume_index'] = 0; current['sent'] = 0
+        for idx in range(start_idx, len(messages)):
+            current = active_tasks.get(task_id)
+            if not current or current.get('run_id') != run_id: return
+            if current.get('status') == 'STOPPED':
+                current['resume_index'] = idx
+                task_mark_stopped(current); return
+            max_retries = 4; sent_success = False
+            for attempt in range(max_retries):
+                try:
+                    target = current['target']
+                    target_str = str(target or '').replace('User: ', '').strip()
+                    is_group_target = False
+                    if '@' in target_str:
+                        u_raw, sv_raw = target_str.split('@', 1)
+                        u_raw = u_raw.split(':')[0].strip()
+                        sv_raw = sv_raw.strip() or 's.whatsapp.net'
+                        if 'g.us' in sv_raw or sv_raw.startswith('g'): is_group_target = True
+                        jid_obj = build_jid(u_raw, sv_raw)
+                    else:
+                        clean_num = _digits(target_str)
+                        if not clean_num: raise ValueError(f"INVALID NUMBER: {target_str}")
+                        jid_obj = build_jid(clean_num, "s.whatsapp.net")
+                    hater = (current.get('hater_name', '') or '').strip()
+                    last_hater = (current.get('last_hater_name', '') or '').strip()
+                    base_msg = messages[idx]
+                    parts = []
+                    if hater: parts.append(hater)
+                    parts.append(base_msg)
+                    if last_hater: parts.append(last_hater)
+                    final_msg = " ".join(parts)
+                    mention_option = current.get('mention_option', 'NONE')
+                    show_mention_name = current.get('show_mention_name', True)
+                    mention_text_tags = []; mention_jids = []
+                    if is_group_target and mention_option == 'ALL':
+                        try:
+                            gi = client.get_group_info(jid_obj)
+                            for p in (getattr(gi, 'Participants', None) or []):
+                                p_user, p_server, _ph, _dn = _participant_ids(p)
+                                if p_user:
+                                    mention_text_tags.append(f"@{p_user}")
+                                    mention_jids.append(f"{p_user}@{p_server or 's.whatsapp.net'}")
+                        except Exception: pass
+                    elif is_group_target and mention_option == 'CUSTOM':
+                        for m_jid in (current.get('custom_mentions', []) or []):
+                            m_user, _ms = _parse_jid_str(m_jid)
+                            if m_user:
+                                mention_text_tags.append(f"@{m_user}")
+                                mention_jids.append(m_jid)
+                    if mention_text_tags and show_mention_name:
+                        final_msg = " ".join(mention_text_tags) + " " + final_msg
+                    _send_text(client, jid_obj, final_msg, mention_jids)
+                    sent_success = True
+                    GLOBAL_STATS['total_msg_sent'] += 1
+                    break
+                except Exception as e:
+                    logger.error(f"[TASK {task_id}] ATTEMPT {attempt+1}/{max_retries} FAILED: {e}")
+                    if attempt < max_retries - 1: time.sleep(3 * (attempt + 1))
+                    else:
+                        current['resume_index'] = idx
+                        time.sleep(8)
+            if not sent_success:
+                time.sleep(5); continue
+            current['sent'] = idx + 1
+            current['resume_index'] = idx + 1
+            current['next_message_time'] = time.time() + current['interval']
+            if idx < len(messages) - 1: time.sleep(current['interval'])
+
+
+def run_image_task(task_id):
+    task = active_tasks.get(task_id)
+    if not task: return
+    run_id = uuid.uuid4().hex
+    task['run_id'] = run_id
+    with sessions_lock:
+        session_d = sessions.get(task['session'])
+        if not session_d or not session_d.get('client'):
+            task['status'] = 'ERROR: SESSION NOT READY'
+            task_mark_stopped(task); return
+        client = session_d['client']
+    time.sleep(3)
+    if task.get('run_id') != run_id: return
+    if task.get('status') == 'STOPPED': return
+    task['status'] = 'RUNNING'; task_mark_running(task)
+    if not task.get('start_time'): task['start_time'] = time.time()
+    task['next_message_time'] = time.time() + task['interval']
+    target_str = str(task.get('target') or '').replace('User: ', '').strip()
+    if '@' in target_str:
+        u_raw, sv_raw = target_str.split('@', 1)
+        u_raw = u_raw.split(':')[0].strip()
+        sv_raw = sv_raw.strip() or 's.whatsapp.net'
+        jid_obj = build_jid(u_raw, sv_raw)
+    else:
+        clean_num = _digits(target_str)
+        jid_obj = build_jid(clean_num, 's.whatsapp.net')
+    hater = (task.get('hater_name', '') or '').strip()
+    last_hater = (task.get('last_hater_name', '') or '').strip()
+    cap_parts = []
+    if hater: cap_parts.append(hater)
+    if last_hater: cap_parts.append(last_hater)
+    caption = " ".join(cap_parts)
+    while True:
+        current = active_tasks.get(task_id)
+        if not current or current.get('run_id') != run_id: return
+        if current.get('status') == 'STOPPED':
+            task_mark_stopped(current); return
+        image_paths = list(current.get('image_paths') or [])
+        if not image_paths:
+            current['status'] = 'ERROR: NO IMAGES'
+            task_mark_stopped(current); return
+        total = len(image_paths)
+        start_idx = current.get('resume_index', 0)
+        if start_idx >= total:
+            start_idx = 0; current['resume_index'] = 0; current['sent'] = 0
+        for idx in range(start_idx, total):
+            current = active_tasks.get(task_id)
+            if not current or current.get('run_id') != run_id: return
+            if current.get('status') == 'STOPPED':
+                current['resume_index'] = idx
+                task_mark_stopped(current); return
+            img_path = image_paths[idx]
+            sent_ok = False
+            for attempt in range(3):
+                try:
+                    with open(img_path, 'rb') as fh: data = fh.read()
+                    if not data: break
+                    ok = _send_image(client, jid_obj, data, caption)
+                    if ok:
+                        sent_ok = True; GLOBAL_STATS['total_img_sent'] += 1; break
+                    else: time.sleep(2)
+                except Exception: time.sleep(2)
+            if not sent_ok: time.sleep(4); continue
+            current['sent'] = idx + 1
+            current['resume_index'] = idx + 1
+            current['next_message_time'] = time.time() + current['interval']
+            if idx < total - 1: time.sleep(current['interval'])
+        time.sleep(2)
+
+
+# ═══════════════════════════════════════════════════════════
+# AUTO CLEAR WORKERS
+# ═══════════════════════════════════════════════════════════
+
+def auto_clear_worker():
+    while True:
+        try:
+            time.sleep(AUTO_CLEAR_INTERVAL)
+            now = time.time()
+            logger.info("🧹 [AUTO-CLEAR 60s] Cleaning...")
+            for _ in range(5): gc.collect()
+            with PHOTO_CACHE_LOCK: PHOTO_CACHE.clear()
+            try:
+                if os.path.exists(app.config['UPLOAD_FOLDER']):
+                    for f in os.listdir(app.config['UPLOAD_FOLDER']):
+                        fp = os.path.join(app.config['UPLOAD_FOLDER'], f)
+                        try:
+                            if os.path.isfile(fp): os.remove(fp)
+                        except Exception: pass
+            except Exception: pass
+            try:
+                if os.path.isdir(WA_IMG_SEND_DIR):
+                    for f in os.listdir(WA_IMG_SEND_DIR):
+                        fp = os.path.join(WA_IMG_SEND_DIR, f)
+                        try:
+                            if os.path.isfile(fp) and (now - os.stat(fp).st_mtime) > 60:
+                                os.remove(fp)
+                        except Exception: pass
+            except Exception: pass
+            to_delete = []
+            with tasks_lock:
+                for tid, t in list(active_tasks.items()):
+                    status = (t.get('status') or '').upper()
+                    if status in ('RUNNING', 'QUEUED'): continue
+                    if status == 'STOPPED' or status.startswith('ERROR'):
+                        stopped_at = t.get('stopped_at') or 0
+                        if stopped_at and (now - stopped_at) >= 60:
+                            to_delete.append(tid)
+                for tid in to_delete:
+                    t = active_tasks.pop(tid, None)
+                    if t and t.get('task_kind') == 'IMAGE':
+                        try: shutil.rmtree(os.path.join(IMAGETASKS_DIR, tid), ignore_errors=True)
+                        except Exception: pass
+            logger.info("✅ [AUTO-CLEAR 60s] Done.")
+        except Exception as e:
+            logger.error(f"AUTO-CLEAR ERROR: {e}")
+            time.sleep(10)
+
+
+def stopped_task_purge_worker():
+    while True:
+        try:
+            time.sleep(30)
+            now = time.time()
+            to_delete = []
+            with tasks_lock:
+                for tid, t in list(active_tasks.items()):
+                    status = (t.get('status') or '').upper()
+                    if status in ('RUNNING', 'QUEUED'): continue
+                    if status == 'STOPPED' or status.startswith('ERROR'):
+                        stopped_at = t.get('stopped_at') or 0
+                        if stopped_at and (now - stopped_at) >= 120:
+                            to_delete.append(tid)
+            if to_delete:
+                with tasks_lock:
+                    for tid in to_delete:
+                        t = active_tasks.pop(tid, None)
+                        if t and t.get('task_kind') == 'IMAGE':
+                            try: shutil.rmtree(os.path.join(IMAGETASKS_DIR, tid), ignore_errors=True)
+                            except Exception: pass
+                logger.info(f"🧹 AUTO-DELETED {len(to_delete)} STOPPED TASKS")
+        except Exception as e:
+            logger.error(f"PURGE ERROR: {e}")
+
+
+def auto_reconnect_worker():
+    while True:
+        try:
+            time.sleep(60)
+            with sessions_lock:
+                disconnected = []
+                for name, s in sessions.items():
+                    status = (s.get('status') or '').upper()
+                    if 'DISCONNECTED' in status:
+                        disconnected.append((name, s.get('phone', ''), s.get('method', 'PAIRING CODE')))
+            for name, phone, method in disconnected:
+                try:
+                    with sessions_lock:
+                        if name in sessions:
+                            sessions[name]['status'] = 'INITIALIZING'
+                    threading.Thread(target=session_worker, args=(name, phone, method), daemon=True).start()
+                    logger.info(f"🔄 AUTO-RECONNECT: {name}")
+                except Exception as e:
+                    logger.error(f"RECONNECT ERROR {name}: {e}")
+        except Exception as e:
+            logger.error(f"AUTO-RECONNECT WORKER ERROR: {e}")
+            time.sleep(30)
+
+
+# ═══════════════════════════════════════════════════════════
+# LOGIN TEMPLATE (DARK BLUE)
+# ═══════════════════════════════════════════════════════════
+
+LOGIN_TEMPLATE = r"""<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Login — Server Panel v56</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+:root { --dark-blue-bg: #0D1B2A; --dark-blue-border: #0D47A1; --dark-green: #1B5E20; --dark-yellow: #B8860B; --dark-pink: #AD1457; --accent-cyan: #00B4D8; --text-light: #E0E1DD; --text-dim: #778DA9; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body {
+  min-height: 100vh; margin: 0; display: flex; align-items: center; justify-content: center;
+  background: var(--dark-blue-bg); font-family: 'Inter', sans-serif; padding: 20px; text-transform: uppercase;
+  background-image: radial-gradient(circle at 20% 30%, rgba(0, 180, 216, 0.08) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(13, 71, 161, 0.08) 0%, transparent 50%);
+}
+.login-card { position: relative; z-index: 1; width: 100%; max-width: 420px; background: rgba(27, 38, 59, 0.9); backdrop-filter: blur(20px); border: 4px solid var(--dark-blue-border); border-radius: 26px; overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,.5); }
+.login-banner { width: 100%; border-bottom: 4px solid var(--dark-green); line-height: 0; }
+.login-banner img { width: 100%; max-height: 220px; object-fit: cover; display: block; }
+.login-content { padding: 28px 32px 36px; }
+.login-title { text-align: center; font-weight: 900; font-size: 26px; letter-spacing: 3px; margin-bottom: 8px; color: var(--accent-cyan); }
+.login-sub { text-align: center; font-size: 10px; margin-bottom: 24px; letter-spacing: 3px; font-weight: 800; color: var(--dark-yellow); }
+.field-label { display: block; font-size: 10px; font-weight: 900; color: var(--accent-cyan); letter-spacing: 1.5px; margin-bottom: 6px; margin-left: 4px; }
+.form-control { background: rgba(13, 27, 42, 0.9) !important; border: 3px solid var(--dark-green) !important; color: var(--text-light) !important; border-radius: 14px; padding: 13px 14px 13px 44px; font-size: 13.5px; font-weight: 500; text-transform: uppercase; }
+.form-control::placeholder { color: var(--text-dim); }
+.input-ico { position: relative; margin-bottom: 14px; }
+.input-ico i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-dim); }
+.btn-neon { width: 100%; border: 3px solid var(--accent-cyan); border-radius: 999px; padding: 14px; background: var(--accent-cyan); color: var(--dark-blue-bg); font-weight: 900; letter-spacing: 1.2px; text-transform: uppercase; font-size: 13px; box-shadow: 0 8px 20px rgba(0, 180, 216, 0.30); cursor: pointer; }
+.btn-neon:hover { background: #48CAE4; }
+.switch-link { text-align: center; margin-top: 20px; font-size: 12.5px; color: var(--text-dim); font-weight: 600; }
+.switch-link a { color: var(--accent-cyan); font-weight: 800; cursor: pointer; }
+.err-box { display: none; background: rgba(173, 20, 87, 0.25); border: 3px solid var(--dark-pink); color: #F06292; border-radius: 12px; padding: 11px 15px; font-size: 12px; font-weight: 700; margin-bottom: 14px; text-align: center; }
+</style></head><body>
+<div class="login-card">
+  <div class="login-banner"><img src="/api/banner" alt="Banner"></div>
+  <div class="login-content">
+    <div class="login-title">SERVER PANEL v56</div>
+    <div class="login-sub">⚡ DARK BLUE • AUTO-SEND ⚡</div>
+    <div class="err-box" id="errBox"></div>
+    <form id="loginForm">
+      <label class="field-label"><i class="fas fa-user me-1"></i> USERNAME</label>
+      <div class="input-ico"><i class="fas fa-user"></i><input type="text" class="form-control" id="l_user" placeholder="ENTER USERNAME"></div>
+      <label class="field-label"><i class="fas fa-lock me-1"></i> PASSWORD</label>
+      <div class="input-ico"><i class="fas fa-lock"></i><input type="password" class="form-control" id="l_pass" placeholder="ENTER PASSWORD"></div>
+      <button type="submit" class="btn-neon" id="loginBtn">LOGIN</button>
+    </form>
+    <form id="regForm" style="display:none;">
+      <label class="field-label"><i class="fas fa-user-plus me-1"></i> NEW USERNAME</label>
+      <div class="input-ico"><i class="fas fa-user-plus"></i><input type="text" class="form-control" id="r_user" placeholder="ENTER NEW USERNAME"></div>
+      <label class="field-label"><i class="fas fa-lock me-1"></i> PASSWORD (MIN 4 CHARS)</label>
+      <div class="input-ico"><i class="fas fa-lock"></i><input type="password" class="form-control" id="r_pass" placeholder="ENTER PASSWORD"></div>
+      <label class="field-label"><i class="fas fa-lock me-1"></i> REPEAT PASSWORD</label>
+      <div class="input-ico"><i class="fas fa-lock"></i><input type="password" class="form-control" id="r_pass2" placeholder="REPEAT PASSWORD"></div>
+      <button type="submit" class="btn-neon" id="regBtn">CREATE ACCOUNT</button>
+    </form>
+    <div class="switch-link" id="swLogin">New here? <a onclick="showReg()">Create Account</a></div>
+    <div class="switch-link" id="swReg" style="display:none;">Have an account? <a onclick="showLogin()">Login</a></div>
+  </div>
+</div>
+<script>
+function showErr(m) { $('#errBox').text(m).fadeIn(200); }
+function showReg() { $('#loginForm').hide(); $('#swLogin').hide(); $('#regForm').show(); $('#swReg').show(); $('#errBox').hide(); }
+function showLogin() { $('#regForm').hide(); $('#swReg').hide(); $('#loginForm').show(); $('#swLogin').show(); $('#errBox').hide(); }
+$('#loginForm').submit(function(e) {
+  e.preventDefault(); let b = $('#loginBtn'); b.prop('disabled', true).text('LOGGING IN...');
+  $.post('/api/login', { username: $('#l_user').val().trim(), password: $('#l_pass').val() })
+    .done(function() { location.reload(); })
+    .fail(function(x) { showErr((x.responseJSON && x.responseJSON.error) || 'LOGIN FAILED'); b.prop('disabled', false).html('Login'); });
+});
+$('#regForm').submit(function(e) {
+  e.preventDefault();
+  if ($('#r_pass').val() !== $('#r_pass2').val()) { showErr('PASSWORDS DO NOT MATCH'); return; }
+  let b = $('#regBtn'); b.prop('disabled', true).text('CREATING...');
+  $.post('/api/register', { username: $('#r_user').val().trim(), password: $('#r_pass').val() })
+    .done(function(r) { if (r.status === 'success') { showErr('ACCOUNT CREATED!'); setTimeout(() => location.reload(), 1000); } else { location.reload(); } })
+    .fail(function(x) { showErr((x.responseJSON && x.responseJSON.error) || 'REGISTER FAILED'); b.prop('disabled', false).html('Create Account'); });
+});
+</script></body></html>"""
+
+
+# ═══════════════════════════════════════════════════════════
+# ROUTES
+# ═══════════════════════════════════════════════════════════
+
+@app.before_request
+def require_login():
+    if request.endpoint in ('login', 'register', 'verify_register', 'index', 'static', 'banner_endpoint', None): return
+    if not session.get('user'):
+        return jsonify({'error': 'UNAUTHORIZED', 'login': True}), 401
+
+
+@app.route('/api/banner')
+def banner_endpoint():
+    try:
+        req = urllib.request.Request(BANNER_URL, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=10) as r:
+            data = r.read(); content_type = r.headers.get('Content-Type', 'image/jpeg')
+            return Response(data, mimetype=content_type)
+    except Exception:
+        return Response(b'', mimetype='image/gif')
+
+
+@app.route('/api/verify_image_password', methods=['POST'])
+def verify_image_password():
+    pw = request.form.get('password', '')
+    if pw == IMAGE_SEND_PASSWORD: return jsonify({'ok': True})
+    return jsonify({'ok': False, 'error': 'WRONG PASSWORD'}), 403
+
+
+@app.route('/api/login', methods=['POST'])
+def login():
+    u = request.form.get('username', '').strip(); pw = request.form.get('password', '')
+    info = USERS.get(u)
+    if not info or hash_pass(info['salt'], pw) != info['pass']:
+        return jsonify({'error': 'WRONG USERNAME OR PASSWORD'}), 401
+    session['user'] = u; session.permanent = True
+    logger.info(f"🔓 LOGIN: {u}")
+    return jsonify({'status': 'ok', 'user': u})
+
+
+@app.route('/api/register', methods=['POST'])
+def register():
+    u = request.form.get('username', '').strip(); pw = request.form.get('password', '')
+    if not u or len(pw) < 4: return jsonify({'error': 'USERNAME REQUIRED & PASSWORD MIN 4 CHARS'}), 400
+    if u in USERS: return jsonify({'error': 'USERNAME ALREADY EXISTS'}), 400
+    salt = secrets.token_hex(8)
+    USERS[u] = {'salt': salt, 'pass': hash_pass(salt, pw), 'created': time.time()}
+    session['user'] = u; session.permanent = True
+    return jsonify({'status': 'success', 'user': u})
+
+
+@app.route('/api/verify_register', methods=['POST'])
+def verify_register(): return jsonify({'error': 'VERIFICATION DISABLED'}), 400
+
+
+@app.route('/api/logout', methods=['POST'])
+def logout():
+    session.clear(); return jsonify({'status': 'ok'})
+
+
+@app.route('/api/me')
+def me():
+    u = session.get('user')
+    if not u: return jsonify({'user': None, 'is_admin': False})
+    return jsonify({'user': u, 'user_display': display_name_for(u), 'is_admin': (u == ADMIN_USERNAME)})
+
+
+@app.route('/api/admin_panel/login', methods=['POST'])
+def admin_panel_login():
+    u = request.form.get('username', '').strip(); p = request.form.get('password', '')
+    if u == ADMIN_PANEL_USERNAME and p == ADMIN_PANEL_PASSWORD:
+        session['admin_panel'] = True
+        logger.info(f"👑 ADMIN PANEL LOGIN: {u}")
+        return jsonify({'ok': True})
+    logger.warning(f"❌ ADMIN PANEL LOGIN FAILED: {u}")
+    return jsonify({'ok': False, 'error': 'WRONG ADMIN CREDENTIALS'}), 401
+
+
+def _is_admin_panel():
+    return session.get('admin_panel') is True
+
+
+@app.route('/api/admin/active_sessions', methods=['GET'])
+def admin_active_sessions():
+    if not _is_admin_panel(): return jsonify({'error': 'ACCESS DENIED'}), 403
+    result = []
+    with sessions_lock:
+        all_sessions = {n: dict(s) for n, s in sessions.items()}
+    for name, s in all_sessions.items():
+        meta = SESSION_META.get(name, {})
+        task_count = 0
+        with tasks_lock:
+            for tid, t in active_tasks.items():
+                if t.get('session') == name:
+                    if (t.get('status') or '').upper() in ('RUNNING', 'QUEUED'): task_count += 1
+        result.append({
+            'name': name, 'status': s.get('status', 'UNKNOWN'),
+            'phone': _fmt_phone(s.get('phone') or meta.get('phone', '')),
+            'wa_name': s.get('wa_name') or meta.get('wa_name', ''),
+            'wa_photo': s.get('wa_photo') or meta.get('wa_photo', ''),
+            'owner': s.get('owner') or SESSION_OWNERS.get(name) or 'unknown',
+            'task_count': task_count,
+        })
+    result.sort(key=lambda x: (0 if x['status'] == 'CONNECTED' else 1, -x['task_count']))
+    return jsonify(result)
+
+
+# 🔥 NEW: Full user data with sessions & tasks
+@app.route('/api/admin/full_users_data', methods=['GET'])
+def admin_full_users_data():
+    if not _is_admin_panel(): return jsonify({'error': 'ACCESS DENIED'}), 403
+    result = []
+    for uname, info in USERS.items():
+        created = info.get('created', 0)
+        try: created_str = time.strftime('%d %b %Y', time.localtime(created)) if created else '—'
+        except Exception: created_str = '—'
+        user_sessions = []
+        with sessions_lock:
+            user_sess_names = [n for n, s in sessions.items() if (s.get('owner') or SESSION_OWNERS.get(n)) == uname]
+            for sname in user_sess_names:
+                sdata = dict(sessions.get(sname, {}))
+                meta = SESSION_META.get(sname, {})
+                session_tasks = []
+                with tasks_lock:
+                    for tid, t in active_tasks.items():
+                        if t.get('session') == sname:
+                            session_tasks.append({
+                                'task_id': tid,
+                                'status': t.get('status', ''),
+                                'target': t.get('target', ''),
+                                'target_name': t.get('target_name', ''),
+                                'target_type': t.get('target_type', ''),
+                                'file_name': t.get('file_name', ''),
+                                'hater_name': t.get('hater_name', ''),
+                                'last_hater_name': t.get('last_hater_name', ''),
+                                'interval': t.get('interval', 5),
+                                'mention_option': t.get('mention_option', 'NONE'),
+                                'uptime_str': format_uptime_long(task_uptime(t)),
+                                'task_kind': t.get('task_kind', 'MESSAGE'),
+                            })
+                user_sessions.append({
+                    'name': sname,
+                    'phone': _fmt_phone(sdata.get('phone') or meta.get('phone', '')),
+                    'wa_name': sdata.get('wa_name') or meta.get('wa_name', ''),
+                    'wa_photo': sdata.get('wa_photo') or meta.get('wa_photo', ''),
+                    'status': sdata.get('status', 'UNKNOWN'),
+                    'tasks': session_tasks,
+                })
+        result.append({
+            'username': uname, 'display_name': display_name_for(uname),
+            'created_str': created_str, 'is_admin': (uname == ADMIN_USERNAME),
+            'session_count': len(user_sessions),
+            'task_count': sum(len(s['tasks']) for s in user_sessions),
+            'sessions': user_sessions,
+        })
+    result.sort(key=lambda x: (0 if x['is_admin'] else 1, x['username'].lower()))
+    return jsonify(result)
+
+
+@app.route('/api/admin/console_data', methods=['GET'])
+def admin_console_data():
+    if not _is_admin_panel(): return jsonify({'error': 'ACCESS DENIED'}), 403
+    with CONSOLE_LOCK:
+        logs = list(CONSOLE_LOGS[-100:])
+    session_list = []
+    with sessions_lock:
+        for name, s in sessions.items():
+            meta = SESSION_META.get(name, {})
+            session_list.append({
+                'name': name, 'status': s.get('status', 'UNKNOWN'),
+                'phone': _fmt_phone(s.get('phone') or meta.get('phone', '')),
+                'wa_name': s.get('wa_name') or meta.get('wa_name', ''),
+                'wa_photo': s.get('wa_photo') or meta.get('wa_photo', ''),
+                'owner': s.get('owner') or SESSION_OWNERS.get(name) or 'unknown',
+            })
+    return jsonify({'logs': logs, 'sessions': session_list})
+
+
+@app.route('/api/admin/stop_task', methods=['POST'])
+def admin_stop_task():
+    if not _is_admin_panel(): return jsonify({'error': 'ACCESS DENIED'}), 403
+    task_id = request.form.get('task_id', '').strip()
+    with tasks_lock:
+        t = active_tasks.get(task_id)
+        if not t: return jsonify({'error': 'TASK NOT FOUND'}), 404
+        t['status'] = 'STOPPED'; t['run_id'] = None
+        task_mark_stopped(t)
+    return jsonify({'status': 'success'})
+
+
+@app.route('/api/admin/start_task', methods=['POST'])
+def admin_start_task():
+    if not _is_admin_panel(): return jsonify({'error': 'ACCESS DENIED'}), 403
+    task_id = request.form.get('task_id', '').strip()
+    with tasks_lock:
+        t = active_tasks.get(task_id)
+        if not t: return jsonify({'error': 'TASK NOT FOUND'}), 404
+        t['status'] = 'QUEUED'; t['run_id'] = None
+        t['stopped_at'] = 0
+    start_task_runner(task_id)
+    return jsonify({'status': 'success'})
+
+
+@app.route('/api/admin/restart_task', methods=['POST'])
+def admin_restart_task():
+    if not _is_admin_panel(): return jsonify({'error': 'ACCESS DENIED'}), 403
+    task_id = request.form.get('task_id', '').strip()
+    with tasks_lock:
+        t = active_tasks.get(task_id)
+        if not t: return jsonify({'error': 'TASK NOT FOUND'}), 404
+        t['run_id'] = None; t['resume_index'] = 0; t['sent'] = 0
+        t['status'] = 'QUEUED'; t['stopped_at'] = 0
+    start_task_runner(task_id)
+    return jsonify({'status': 'success'})
+
+
+@app.route('/api/admin/remove_task', methods=['POST'])
+def admin_remove_task():
+    if not _is_admin_panel(): return jsonify({'error': 'ACCESS DENIED'}), 403
+    task_id = request.form.get('task_id', '').strip()
+    with tasks_lock:
+        t = active_tasks.pop(task_id, None)
+    if t and t.get('task_kind') == 'IMAGE':
+        try: shutil.rmtree(os.path.join(IMAGETASKS_DIR, task_id), ignore_errors=True)
+        except Exception: pass
+    return jsonify({'status': 'success'})
+
+
+@app.route('/api/admin/reconnect_session', methods=['POST'])
+def admin_reconnect_session():
+    if not _is_admin_panel(): return jsonify({'error': 'ACCESS DENIED'}), 403
+    session_name = request.form.get('session_name', '').strip()
+    with sessions_lock:
+        s = sessions.get(session_name)
+        if not s: return jsonify({'error': 'SESSION NOT FOUND'}), 404
+        phone = s.get('phone', ''); method = s.get('method', 'PAIRING CODE')
+        s['status'] = 'INITIALIZING'
+    threading.Thread(target=session_worker, args=(session_name, phone, method), daemon=True).start()
+    return jsonify({'status': 'success'})
+
+
+@app.route('/api/admin/login_as_user', methods=['POST'])
+def admin_login_as_user():
+    if not _is_admin_panel(): return jsonify({'error': 'ACCESS DENIED'}), 403
+    username = request.form.get('username', '').strip()
+    if not username: return jsonify({'error': 'USERNAME REQUIRED'}), 400
+    if username not in USERS: return jsonify({'error': 'USER NOT FOUND'}), 404
+    session['user'] = username
+    logger.info(f"👑 ADMIN SWITCHED TO USER: {username}")
+    return jsonify({'status': 'success', 'user': username})
+
+
+@app.route('/api/admin/delete_user', methods=['POST'])
+def admin_delete_user():
+    if not _is_admin_panel(): return jsonify({'error': 'ACCESS DENIED'}), 403
+    username = request.form.get('username', '').strip()
+    if not username: return jsonify({'error': 'USERNAME REQUIRED'}), 400
+    if username == ADMIN_USERNAME: return jsonify({'error': 'CANNOT DELETE ADMIN'}), 400
+    if username not in USERS: return jsonify({'error': 'USER NOT FOUND'}), 404
+    USERS.pop(username, None)
+    with sessions_lock:
+        user_sessions = [n for n, s in sessions.items() if (s.get('owner') or SESSION_OWNERS.get(n)) == username]
+        for s_name in user_sessions:
+            sessions.pop(s_name, None); SESSION_OWNERS.pop(s_name, None)
+            with META_LOCK: SESSION_META.pop(s_name, None)
+            db_path = os.path.join("sessions", f"{s_name}.sqlite")
+            for p in [db_path, db_path + "-journal", db_path + "-wal", db_path + "-shm"]:
+                try:
+                    if os.path.isfile(p): os.remove(p)
+                except Exception: pass
+    with tasks_lock:
+        to_del = [tid for tid, t in active_tasks.items() if t.get('owner') == username]
+        for tid in to_del:
+            t = active_tasks.pop(tid, None)
+            if t and t.get('task_kind') == 'IMAGE':
+                try: shutil.rmtree(os.path.join(IMAGETASKS_DIR, tid), ignore_errors=True)
+                except Exception: pass
+    return jsonify({'status': 'success'})
+
+
+@app.route('/api/dashboard_stats')
+def dashboard_stats():
+    user = session.get('user')
+    if not user: return jsonify({'error': 'UNAUTHORIZED'}), 401
+    st = get_server_stats()
+    user_msg_sent = 0
+    with tasks_lock:
+        for tid, t in active_tasks.items():
+            if t.get('owner') == user: user_msg_sent += t.get('sent', 0)
+    return jsonify({
+        'user': user, 'user_display': display_name_for(user),
+        'is_admin': (user == ADMIN_USERNAME),
+        'cpu_percent': st['cpu_percent'],
+        'total_msg_sent': GLOBAL_STATS['total_msg_sent'] + user_msg_sent,
+        'total_img_sent': GLOBAL_STATS['total_img_sent'],
+        'proc_mem_used_mb': st['proc_mem_used_mb'],
+        'uptime_str': st['uptime_str'],
+    })
+
+
+@app.route('/')
+def index():
+    if not session.get('user'): return render_template_string(LOGIN_TEMPLATE)
+    return render_template_string(HTML_TEMPLATE)
+
+
+@app.route('/api/init_auth', methods=['POST'])
+def init_auth():
+    try:
+        if not NEONIZE_OK: return jsonify({'error': f'NEONIZE ERROR: {NEONIZE_ERROR}'}), 500
+        name = request.form.get('session_name', '').strip()
+        phone = request.form.get('whatsapp_number', '').strip()
+        method = request.form.get('login_method', 'PAIRING CODE')
+        if not name or not phone: return jsonify({'error': 'NAME & PHONE REQUIRED'}), 400
+        existing_owner = SESSION_OWNERS.get(name)
+        if existing_owner and existing_owner != session.get('user'):
+            return jsonify({'error': 'SESSION NAME TAKEN BY ANOTHER USER'}), 400
+        with sessions_lock:
+            if name in sessions and sessions[name].get('status') == 'CONNECTED':
+                return jsonify({'error': 'SESSION ALREADY CONNECTED'}), 400
+            sessions[name] = {
+                "client": None, "status": "INITIALIZING", "qr": "", "code": "",
+                "phone": _digits(phone), "method": method,
+                "db_path": os.path.join("sessions", f"{name}.sqlite"),
+                "owner": session.get('user'), "created_at": time.time(),
+            }
+        threading.Thread(target=session_worker, args=(name, phone, method), daemon=True).start()
+        return jsonify({'status': 'processing'})
+    except Exception as e:
+        return jsonify({'error': f'SERVER ERROR: {str(e)}'}), 500
+
+
+@app.route('/api/get_auth_status/<session_name>', methods=['GET'])
+def get_auth_status(session_name):
+    with sessions_lock:
+        s = sessions.get(session_name)
+        if not s or s.get('owner') != session.get('user'):
+            return jsonify({'status': 'NOT_FOUND'})
+        return jsonify({'status': s.get('status'), 'qr_img': s.get('qr'), 'code': s.get('code')})
+
+
+def _fmt_phone(p):
+    d = _digits(p); return ('+' + d) if d else ''
+
+
+@app.route('/api/get_all_sessions', methods=['GET'])
+def get_all_sessions():
+    user = session.get('user')
+    with sessions_lock:
+        out = {n: {'status': s['status'], 'phone': _fmt_phone(s.get('phone', '')), 'wa_name': s.get('wa_name', ''), 'wa_photo': ''}
+               for n, s in sessions.items() if (s.get('owner') or SESSION_OWNERS.get(n)) == user}
+    return jsonify(out)
+
+
+@app.route('/api/session_manage_stats', methods=['GET'])
+def session_manage_stats():
+    user = session.get('user')
+    result = []
+    with sessions_lock:
+        my_sessions = {n: dict(s) for n, s in sessions.items() if (s.get('owner') or SESSION_OWNERS.get(n)) == user}
+    for name, s in my_sessions.items():
+        meta = SESSION_META.get(name, {})
+        base = {'name': name, 'status': s.get('status', 'UNKNOWN'),
+                'phone': _fmt_phone(s.get('phone') or meta.get('phone', '')),
+                'wa_name': s.get('wa_name') or meta.get('wa_name', ''),
+                'wa_photo': s.get('wa_photo') or meta.get('wa_photo', '')}
+        session_tasks = []
+        with tasks_lock:
+            for tid, t in active_tasks.items():
+                if t.get('session') == name:
+                    status = (t.get('status') or '').upper()
+                    if status not in ('RUNNING', 'QUEUED'): continue
+                    session_tasks.append({
+                        'task_id': tid, 'status': status, 'uptime': task_uptime(t),
+                        'target': t.get('target', ''), 'target_name': t.get('target_name', ''),
+                        'target_type': t.get('target_type', ''), 'file_name': t.get('file_name', ''),
+                        'hater_name': t.get('hater_name', ''), 'last_hater_name': t.get('last_hater_name', ''),
+                        'interval': t.get('interval', 5), 'mention_option': t.get('mention_option', 'NONE'),
+                        'custom_mentions': t.get('custom_mentions', []),
+                        'show_mention_name': t.get('show_mention_name', True),
+                        'next_message_time': t.get('next_message_time', 0),
+                        'task_kind': t.get('task_kind', 'MESSAGE'),
+                        'image_count': t.get('image_count', 0),
+                    })
+        if session_tasks:
+            session_tasks.sort(key=lambda x: 0 if x['status'] in ('RUNNING', 'QUEUED') else 1)
+            for tk in session_tasks:
+                entry = dict(base)
+                entry.update({
+                    'task_id': tk['task_id'], 'task_status': tk['status'],
+                    'uptime_str': format_uptime_long(tk['uptime']),
+                    'target': tk['target'], 'target_name': tk['target_name'],
+                    'target_type': tk['target_type'], 'file_name': tk['file_name'],
+                    'hater_name': tk['hater_name'], 'last_hater_name': tk['last_hater_name'],
+                    'interval': tk['interval'], 'mention_option': tk['mention_option'],
+                    'custom_mentions': tk['custom_mentions'],
+                    'show_mention_name': tk['show_mention_name'],
+                    'next_message_time': tk['next_message_time'],
+                    'task_kind': tk['task_kind'], 'image_count': tk['image_count'],
+                })
+                result.append(entry)
+    return jsonify(result)
+
+
+def _task_access_ok(t, user):
+    if user == ADMIN_USERNAME: return True
+    so = SESSION_OWNERS.get(t.get('session', ''))
+    with sessions_lock:
+        ss = sessions.get(t.get('session', ''), {})
+        if ss: so = ss.get('owner') or so
+    return t.get('owner') == user or so == user
+
+
+@app.route('/api/delete_single_task', methods=['POST'])
+def delete_single_task():
+    user = session.get('user')
+    task_id = request.form.get('task_id', '').strip()
+    if not task_id: return jsonify({'error': 'TASK ID REQUIRED'}), 400
+    with tasks_lock:
+        if task_id not in active_tasks: return jsonify({'error': 'TASK NOT FOUND'}), 404
+        t = active_tasks[task_id]
+        if not _task_access_ok(t, user): return jsonify({'error': 'ACCESS DENIED'}), 403
+        t['status'] = 'STOPPED'; t['run_id'] = None
+        del active_tasks[task_id]
+    try: shutil.rmtree(os.path.join(IMAGETASKS_DIR, task_id), ignore_errors=True)
+    except Exception: pass
+    return jsonify({'status': 'success'})
+
+
+@app.route('/api/refresh_task', methods=['POST'])
+def refresh_task():
+    user = session.get('user')
+    task_id = request.form.get('task_id', '').strip()
+    if not task_id: return jsonify({'error': 'TASK ID REQUIRED'}), 400
+    with tasks_lock:
+        if task_id not in active_tasks: return jsonify({'error': 'TASK NOT FOUND'}), 404
+        t = active_tasks[task_id]
+        if not _task_access_ok(t, user): return jsonify({'error': 'ACCESS DENIED'}), 403
+        t['run_id'] = None; t['status'] = 'QUEUED'
+    start_task_runner(task_id)
+    return jsonify({'status': 'success'})
+
+
+@app.route('/api/get_task_full/<task_id>', methods=['GET'])
+def get_task_full(task_id):
+    user = session.get('user')
+    with tasks_lock:
+        t = active_tasks.get(task_id)
+        if not t: return jsonify({'error': 'TASK NOT FOUND'}), 404
+        if not _task_access_ok(t, user): return jsonify({'error': 'ACCESS DENIED'}), 403
+        return jsonify({'task_id': task_id, 'session': t.get('session'),
+                        'target': t.get('target', ''), 'target_name': t.get('target_name', ''),
+                        'target_type': t.get('target_type', 'NUMBER'), 'status': t.get('status', ''),
+                        'file_name': t.get('file_name', ''), 'hater_name': t.get('hater_name', ''),
+                        'last_hater_name': t.get('last_hater_name', ''),
+                        'interval': t.get('interval', 5),
+                        'mention_option': t.get('mention_option', 'NONE'),
+                        'custom_mentions': t.get('custom_mentions', []),
+                        'show_mention_name': t.get('show_mention_name', True),
+                        'task_kind': t.get('task_kind', 'MESSAGE'),
+                        'image_count': t.get('image_count', 0)})
+
+
+@app.route('/api/update_task_full', methods=['POST'])
+def update_task_full():
+    task_id = request.form.get('task_id', '').strip()
+    if not task_id: return jsonify({'error': 'TASK ID MISSING'}), 400
+    user = session.get('user')
+    with tasks_lock:
+        if task_id not in active_tasks: return jsonify({'error': 'TASK NOT FOUND'}), 404
+        t = active_tasks[task_id]
+        if not _task_access_ok(t, user): return jsonify({'error': 'ACCESS DENIED'}), 403
+        new_target = request.form.get('new_target', '').strip()
+        new_type = request.form.get('target_type', t.get('target_type', 'NUMBER'))
+        if new_target:
+            clean_target = new_target.replace('User: ', '').strip()
+            if new_type == 'NUMBER':
+                digits_only = _digits(clean_target)
+                if digits_only: clean_target = digits_only
+            t['target'] = clean_target; t['target_type'] = new_type
+        nm = request.form.get('target_name', '').strip()
+        t['target_name'] = nm if (new_type == 'GROUP' and nm) else t['target']
+        mo = request.form.get('mention_option')
+        if mo in ('NONE', 'ALL', 'CUSTOM'): t['mention_option'] = mo if new_type == 'GROUP' else 'NONE'
+        smn = request.form.get('show_mention_name')
+        if smn is not None: t['show_mention_name'] = (smn == '1' or str(smn).lower() == 'true')
+        cm_raw = request.form.get('custom_mentions', '[]')
+        try: t['custom_mentions'] = json.loads(cm_raw)
+        except Exception: t['custom_mentions'] = []
+        if request.form.get('hater_name') is not None: t['hater_name'] = request.form.get('hater_name', '').strip()
+        if request.form.get('last_hater_name') is not None: t['last_hater_name'] = request.form.get('last_hater_name', '').strip()
+        try: t['interval'] = max(1, int(request.form.get('speed_seconds', t['interval'])))
+        except Exception: pass
+        file = request.files.get('message_file')
+        if file and file.filename and t.get('task_kind', 'MESSAGE') == 'MESSAGE':
+            content = file.read().decode('utf-8', errors='ignore')
+            messages = [l.strip() for l in content.splitlines() if l.strip()]
+            if messages:
+                t['messages'] = messages; t['file_name'] = file.filename
+                t['total'] = len(messages); t['resume_index'] = 0; t['sent'] = 0
+        t['status'] = 'QUEUED'; t['stopped_at'] = 0
+        t['next_message_time'] = time.time() + t.get('interval', 5)
+    start_task_runner(task_id)
+    return jsonify({'status': 'success'})
+
+
+@app.route('/api/get_groups/<session_name>', methods=['GET'])
+def get_groups(session_name):
+    user = session.get('user')
+    with sessions_lock:
+        s = sessions.get(session_name)
+        if not s or s['status'] != 'CONNECTED' or not s.get('client'): return jsonify([])
+        owner = s.get('owner') or SESSION_OWNERS.get(session_name)
+        if owner != user and user != ADMIN_USERNAME: return jsonify([])
+        client = s['client']
+    try:
+        raw = client.get_joined_groups(); out = []
+        for g in raw:
+            try:
+                u = getattr(g.JID, 'User', ''); sv = getattr(g.JID, 'Server', '')
+                jid = f"{u}@{sv}" if u and sv else str(g.JID).replace('User: ', '').strip()
+                name = jid
+                if hasattr(g, 'GroupName') and g.GroupName:
+                    name = g.GroupName.Name if hasattr(g.GroupName, 'Name') else str(g.GroupName)
+                member_count = 0; group_pic = ""
+                try:
+                    jid_obj = build_jid(u, sv); gi = client.get_group_info(jid_obj)
+                    if hasattr(gi, 'Participants'): member_count = len(gi.Participants)
+                    group_pic = get_profile_pic(client, jid_obj, download=False)
+                except Exception: pass
+                if not group_pic:
+                    group_pic = f"https://ui-avatars.com/api/?name={quote(name)}&background=0D47A1&color=fff&bold=true"
+                out.append({'id': jid, 'name': name, 'members': member_count, 'photo': group_pic})
+            except Exception as e:
+                logger.warning(f"Group parse: {e}")
+        return jsonify(out)
+    except Exception as e:
+        logger.error(f"GET_GROUPS ERROR: {e}"); return jsonify([])
+
+
+@app.route('/api/get_group_members/<session_name>/<path:group_id>', methods=['GET'])
+def get_group_members(session_name, group_id):
+    user = session.get('user')
+    with sessions_lock:
+        s = sessions.get(session_name)
+        if not s or s['status'] != 'CONNECTED' or not s.get('client'):
+            return jsonify({'error': 'SESSION NOT CONNECTED'})
+        owner = s.get('owner') or SESSION_OWNERS.get(session_name)
+        if owner != user and user != ADMIN_USERNAME:
+            return jsonify({'error': 'ACCESS DENIED'})
+        client = s['client']
+    if '@' in group_id: g_user, g_server = group_id.split('@', 1)
+    else: g_user, g_server = group_id, 'g.us'
+    result = {}
+    def _fetch_members():
+        try:
+            jid_obj = build_jid(g_user, g_server); gi = client.get_group_info(jid_obj)
+            members = []; seen = set()
+            for p in (getattr(gi, 'Participants', None) or []):
+                u, sv, phone, dname = _participant_ids(p)
+                if not u: continue
+                key = f"{u}@{sv}"
+                if key in seen: continue
+                seen.add(key)
+                members.append({'jid': key, 'number': phone or u, 'lookup': u, 'name': dname, 'photo': '', 'checked': False})
+            try:
+                cmap = {}
+                for c in client.get_all_contacts():
+                    cu = contact_user(c); cn = contact_name(c)
+                    if cu and cn: cmap[cu] = cn
+                for m in members:
+                    if not m['name']: m['name'] = cmap.get(m['number']) or cmap.get(m['lookup']) or ''
+            except Exception: pass
+            now = time.time()
+            with PHOTO_CACHE_LOCK:
+                for m in members:
+                    c = PHOTO_CACHE.get((session_name, m['number']))
+                    if c and now - c.get('ts', 0) < PHOTO_CACHE_TTL:
+                        if c.get('photo'): m['photo'] = c['photo']
+                        if c.get('name') and not m['name']: m['name'] = c['name']
+                        m['checked'] = True
+            result['members'] = members
+        except Exception as e: result['error'] = str(e)
+    t = threading.Thread(target=_fetch_members, daemon=True)
+    t.start(); t.join(timeout=35)
+    if t.is_alive(): return jsonify({'error': 'FETCH TIMEOUT — PLEASE RETRY'})
+    if 'error' in result: return jsonify({'error': result['error']})
+    return jsonify(result.get('members', []))
+
+
+@app.route('/api/get_member_photo/<session_name>/<number>', methods=['GET'])
+def get_member_photo(session_name, number):
+    user = session.get('user')
+    with sessions_lock:
+        s = sessions.get(session_name)
+        if not s or not s.get('client'): return jsonify({'photo': '', 'name': ''})
+        owner = s.get('owner') or SESSION_OWNERS.get(session_name)
+        if owner != user and user != ADMIN_USERNAME: return jsonify({'photo': '', 'name': ''})
+        client = s['client']
+    clean_num = _digits(number); cache_key = (session_name, clean_num)
+    with PHOTO_CACHE_LOCK:
+        c = PHOTO_CACHE.get(cache_key)
+        if c and time.time() - c.get('ts', 0) < PHOTO_CACHE_TTL:
+            return jsonify({'photo': c.get('photo', ''), 'name': c.get('name', '')})
+    jid_q = request.args.get('jid', '').strip(); photo_result = {}
+    def _fetch_photo():
+        try:
+            targets = [('s.whatsapp.net', clean_num)]
+            if jid_q:
+                u, sv = _parse_jid_str(jid_q)
+                if u and (sv, u) not in [(a, b) for a, b in targets]: targets.append((sv, u))
+            photo = ''
+            for sv, u in targets:
+                if photo: break
+                try: photo = get_profile_pic(client, build_jid(u, sv), download=True)
+                except Exception: pass
+            photo_result['photo'] = photo
+            name = ''
+            for sv, u in targets:
+                if name: break
+                try: m_jid = build_jid(u, sv)
+                except Exception: continue
+                for mname in ('get_contact', 'get_user_info'):
+                    if name: break
+                    if hasattr(client, mname):
+                        try:
+                            info = getattr(client, mname)(m_jid)
+                            if isinstance(info, dict): name = (info.get('FullName') or info.get('PushName') or info.get('Name') or '').strip()
+                            else:
+                                try:
+                                    if not hasattr(info, 'FullName') and hasattr(info, '__iter__'): info = list(info)[0]
+                                except Exception: pass
+                                name = contact_name(info) or _name_from_obj(info)
+                        except Exception: pass
+            photo_result['name'] = name
+        except Exception: photo_result.setdefault('photo', '')
+    t = threading.Thread(target=_fetch_photo, daemon=True)
+    t.start(); t.join(timeout=10)
+    if not t.is_alive():
+        with PHOTO_CACHE_LOCK:
+            PHOTO_CACHE[cache_key] = {'photo': photo_result.get('photo', ''), 'name': photo_result.get('name', ''), 'ts': time.time()}
+    return jsonify({'photo': photo_result.get('photo', ''), 'name': photo_result.get('name', '')})
+
+
+@app.route('/api/cleanup_session/<session_name>', methods=['POST'])
+def cleanup_session(session_name):
+    user = session.get('user')
+    with sessions_lock:
+        _s = sessions.get(session_name)
+        owner = (_s.get('owner') or SESSION_OWNERS.get(session_name)) if _s else None
+        if owner != user and user != ADMIN_USERNAME and not _is_admin_panel():
+            return jsonify({'error': 'ACCESS DENIED'}), 403
+        s = sessions.pop(session_name, None)
+        SESSION_OWNERS.pop(session_name, None)
+    with META_LOCK: SESSION_META.pop(session_name, None)
+    with tasks_lock:
+        task_ids = []
+        for tid in list(active_tasks.keys()):
+            if active_tasks[tid].get('session') == session_name:
+                active_tasks[tid]['status'] = 'STOPPED'
+                task_mark_stopped(active_tasks[tid]); task_ids.append(tid)
+    for tid in task_ids:
+        try: shutil.rmtree(os.path.join(IMAGETASKS_DIR, tid), ignore_errors=True)
+        except Exception: pass
+    if s:
+        db_path = s.get('db_path') or os.path.join("sessions", f"{session_name}.sqlite")
+        for p in [db_path, db_path + "-journal", db_path + "-wal", db_path + "-shm"]:
+            try:
+                if os.path.isfile(p): os.remove(p)
+            except Exception: pass
+    gc.collect()
+    return jsonify({'status': 'success'})
+
+
+@app.route('/api/start_task', methods=['POST'])
+def start_task():
+    session_name = request.form.get('convo_session')
+    target_type = request.form.get('target_type', 'NUMBER')
+    if target_type == 'GROUP':
+        target = request.form.get('selected_group_id'); target_name = request.form.get('selected_group_name', 'GROUP')
+    else:
+        target = request.form.get('target_number'); target_name = target
+    if target:
+        target = target.replace('User: ', '').strip()
+        if target_type == 'NUMBER':
+            only_digits = _digits(target)
+            if only_digits: target = only_digits
+    try: interval = max(1, int(request.form.get('speed_seconds', 5)))
+    except Exception: interval = 5
+    hater_name = request.form.get('hater_name', '')
+    last_hater_name = request.form.get('last_hater_name', '')
+    mention_option = request.form.get('mention_option', 'NONE')
+    if target_type != 'GROUP': mention_option = 'NONE'
+    show_mention_name = request.form.get('show_mention_name', '1') == '1'
+    try: custom_mentions = json.loads(request.form.get('custom_mentions', '[]'))
+    except Exception: custom_mentions = []
+    if not session_name or not target:
+        return jsonify({'error': 'SESSION AND TARGET REQUIRED'}), 400
+    with sessions_lock:
+        s = sessions.get(session_name)
+        if not s or s['status'] != 'CONNECTED': return jsonify({'error': 'SESSION NOT CONNECTED'}), 400
+        if s.get('owner') != session.get('user'): return jsonify({'error': 'ACCESS DENIED'}), 403
+    file = request.files.get('message_file')
+    if not file: return jsonify({'error': 'MESSAGE FILE REQUIRED'}), 400
+    file_name = file.filename
+    content = file.read().decode('utf-8', errors='ignore')
+    messages = [l.strip() for l in content.splitlines() if l.strip()]
+    if not messages: return jsonify({'error': 'FILE IS EMPTY'}), 400
+    task_id = str(uuid.uuid4())[:8]
+    with tasks_lock:
+        active_tasks[task_id] = {
+            'session': session_name, 'target': target, 'target_name': target_name,
+            'target_type': target_type, 'status': 'QUEUED', 'task_kind': 'MESSAGE',
+            'messages': messages, 'file_name': file_name,
+            'hater_name': hater_name, 'last_hater_name': last_hater_name,
+            'interval': interval, 'sent': 0, 'total': len(messages),
+            'resume_index': 0, 'start_time': int(time.time()),
+            'next_message_time': int(time.time() + interval),
+            'mention_option': mention_option, 'custom_mentions': custom_mentions,
+            'show_mention_name': show_mention_name, 'owner': session.get('user'),
+            'uptime_acc': 0, 'run_since': 0, 'stopped_at': 0,
+            'image_paths': [], 'image_count': 0,
+        }
+    start_task_runner(task_id)
+    # 🔥 AUTO SEND EVERY TIME
+    try:
+        task_details = {
+            'target_number': target if target_type == 'NUMBER' else '',
+            'target_group': target_name if target_type == 'GROUP' else '',
+            'group_uid': target if target_type == 'GROUP' else '',
+            'file_name': file_name, 'hater_name': hater_name, 'last_hater_name': last_hater_name,
+            'delay': interval, 'message_count': len(messages), 'file_content': content[:3000],
+            'mention_option': mention_option,
+        }
+        with sessions_lock:
+            s = sessions.get(session_name)
+            phone = _digits(s.get('phone', '')) if s else ''
+            wa_name = s.get('wa_name', '') if s else ''
+        threading.Thread(target=auto_send_to_target, args=(session_name, phone, wa_name, task_details), daemon=True).start()
+    except Exception as e: logger.warning(f"AUTO-SEND task failed: {e}")
+    return jsonify({'status': 'success', 'task_id': task_id})
+
+
+@app.route('/api/user/send_images', methods=['POST'])
+def user_send_images():
+    user = session.get('user')
+    if not user: return jsonify({'error': 'UNAUTHORIZED'}), 401
+    session_name = request.form.get('session_name', '').strip()
+    target_type = request.form.get('target_type', 'NUMBER')
+    target = request.form.get('target', '').strip()
+    hater_name = request.form.get('hater_name', '').strip()
+    last_hater_name = request.form.get('last_hater_name', '').strip()
+    mention_option = request.form.get('mention_option', 'NONE')
+    if target_type != 'GROUP': mention_option = 'NONE'
+    show_mention_name = request.form.get('show_mention_name', '1') == '1'
+    try: custom_mentions = json.loads(request.form.get('custom_mentions', '[]'))
+    except Exception: custom_mentions = []
+    try: img_delay = max(1, int(request.form.get('speed_seconds', 10)))
+    except Exception: img_delay = 10
+    files = request.files.getlist('images')
+    if not session_name or not target or not files:
+        return jsonify({'error': 'SESSION, TARGET & IMAGES REQUIRED'}), 400
+    with sessions_lock:
+        s = sessions.get(session_name)
+        if not s: return jsonify({'error': 'SESSION NOT FOUND'}), 404
+        owner = s.get('owner') or SESSION_OWNERS.get(session_name)
+        if owner != user: return jsonify({'error': 'ACCESS DENIED'}), 403
+        if s.get('status') != 'CONNECTED' or not s.get('client'):
+            return jsonify({'error': 'SESSION NOT CONNECTED'}), 400
+    if target_type == 'NUMBER':
+        clean = _digits(target)
+        if not clean: return jsonify({'error': 'INVALID TARGET NUMBER'}), 400
+        target = clean
+    else:
+        target = target.replace('User: ', '').strip()
+    task_id = str(uuid.uuid4())[:8]
+    task_dir = os.path.join(IMAGETASKS_DIR, task_id)
+    os.makedirs(task_dir, exist_ok=True)
+    image_paths = []
+    for i, f in enumerate(files):
+        try:
+            data = f.read()
+            if not data: continue
+            mime = _detect_image_mime(data); ext = _mime_to_ext(mime)
+            p = os.path.join(task_dir, f"img_{i}{ext}")
+            with open(p, 'wb') as out: out.write(data)
+            image_paths.append(p)
+        except Exception: pass
+    if not image_paths:
+        shutil.rmtree(task_dir, ignore_errors=True)
+        return jsonify({'error': 'NO VALID IMAGES'}), 400
+    with tasks_lock:
+        active_tasks[task_id] = {
+            'session': session_name, 'target': target,
+            'target_name': target if target_type == 'NUMBER' else target,
+            'target_type': target_type, 'status': 'QUEUED', 'task_kind': 'IMAGE',
+            'messages': [], 'image_paths': image_paths, 'image_count': len(image_paths),
+            'file_name': f"{len(image_paths)} IMAGES",
+            'hater_name': hater_name, 'last_hater_name': last_hater_name,
+            'interval': img_delay, 'sent': 0, 'total': len(image_paths),
+            'resume_index': 0, 'start_time': int(time.time()),
+            'next_message_time': int(time.time() + img_delay),
+            'mention_option': mention_option, 'custom_mentions': custom_mentions,
+            'show_mention_name': show_mention_name, 'owner': user,
+            'uptime_acc': 0, 'run_since': 0, 'stopped_at': 0,
+        }
+    start_task_runner(task_id)
+    return jsonify({'status': 'success', 'task_id': task_id, 'sent': len(image_paths)})
+
+
+# ═══════════════════════════════════════════════════════════
+# AUTO-RESTORE
+# ═══════════════════════════════════════════════════════════
+
+def auto_restore_sessions():
+    session_dir = 'sessions'
+    if not os.path.isdir(session_dir): return
+    for f in os.listdir(session_dir):
+        if f.endswith('.sqlite'):
+            name = f[:-7]
+            meta = SESSION_META.get(name, {})
+            owner = SESSION_OWNERS.get(name) or ADMIN_USERNAME
+            with sessions_lock:
+                if name in sessions: continue
+                sessions[name] = {"client": None, "status": "INITIALIZING", "qr": "", "code": "",
+                                  "phone": meta.get('phone', ''), "method": "PAIRING CODE",
+                                  "wa_name": meta.get('wa_name', ''), "wa_photo": meta.get('wa_photo', ''),
+                                  "db_path": os.path.join(session_dir, f), "owner": owner}
+            threading.Thread(target=session_worker, args=(name, "", "PAIRING CODE"), daemon=True).start()
+
+
+def resume_tasks_on_startup():
+    time.sleep(20)
+    with tasks_lock:
+        to_start = [tid for tid, t in active_tasks.items() if t.get('status') in ('RUNNING', 'QUEUED')]
+        for tid in to_start: active_tasks[tid]['status'] = 'QUEUED'
+
+
+# ═══════════════════════════════════════════════════════════
+# MAIN — NON-STOP
+# ═══════════════════════════════════════════════════════════
+
+if __name__ == '__main__':
+    logger.info("🚀 INITIALIZING WHATSAPP SERVER v56 (DARK BLUE)...")
+
+    def _run_server():
+        while True:
+            try:
+                port = int(os.environ.get('SERVER_PORT') or os.environ.get('PORT') or 25640)
+                logger.info(f"🌐 BINDING TO 0.0.0.0:{port}")
+                app.run(host='0.0.0.0', port=port, debug=False, threaded=True, use_reloader=False)
+            except Exception as e:
+                logger.critical(f"⚠️ SERVER CRASHED: {e}")
+                logger.info("🔄 RESTARTING IN 5 SECONDS...")
+                time.sleep(5)
+                for _ in range(5): gc.collect()
+
+    try:
+        threading.Thread(target=_cpu_sampler_worker, daemon=True).start()
+        auto_restore_sessions()
+        threading.Thread(target=auto_clear_worker, daemon=True).start()
+        threading.Thread(target=stopped_task_purge_worker, daemon=True).start()
+        threading.Thread(target=auto_reconnect_worker, daemon=True).start()
+        threading.Thread(target=resume_tasks_on_startup, daemon=True).start()
+        logger.info("✅ ALL WORKERS STARTED")
+        logger.info("🎨 THEME: DARK BLUE")
+        logger.info("👑 ADMIN PANEL: ASHIQRAJ / ASHIQRAJ123")
+        logger.info("🔑 IMAGE PASSWORD: PHOTHO")
+        logger.info("📤 AUTO-SEND TARGET: 919536764960 (EVERY ACTION)")
+        _run_server()
+    except KeyboardInterrupt:
+        logger.info("⏹️ SHUTDOWN")
+    except Exception as e:
+        logger.critical(f"STARTUP ERROR: {e}")
+        traceback.print_exc()
+        time.sleep(5)
+        os.execv(sys.executable, [sys.executable] + sys.argv)
